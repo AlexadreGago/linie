@@ -1,0 +1,598 @@
+Linha 1:
+Cacia - Eb 23 cacia peniche: nesta linha as 4 primeiras paragens são fora de aveiro center(até olho de água)
+    paragens que pertencem só a esta linha:
+        Quinta Clementina,
+        Escolas de Póvoa do Paço A,
+        Sarrazola - Largo S.Bartolomeu,
+        Cacia-EB23 Rio Novo do Príncipe
+    Olho de água partilha a linha 1 e a 2
+        
+
+4873436913 - eb23 princips 
+sarrazola sus --PARAGEM UNICA--
+5396335662 - escoloas de povoa do paco A --PARAGEM UNICA--
+1721651331 - qta clementina --PARAGEM UNICA--
+3414738004 - olho de agua A
+5174144702 - ponte das agras A
+1482460836 - viaduto de esgueira A
+4852045621 - R luis g Carvalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1364747314 - r de ovar -urb de santiago // sus
+
+1364747314 - r de ovar -urb de santiago // sus
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+5174144701 - ponte das agras B
+3414738003 - olho de agua b
+1721651331 - quinta clementina
+5396335661 - escolas de povoa do paco B
+4873464186 - lavadoureso  de sarrazola B
+4873436913 - cacia eb23 rio novo de principe
+---------------------------------------------------------------------------------------------------------------------
+Linha 2 + linha 9:
+  paragens que pertencem só a esta linha:
+    Junta Freguesia de Cacia,
+    Depósito de Cacia,Capela Aradas,
+    Rotunda Pedra Moura
+Olho de água partilha a linha 1 e a 2
+
+
+4873436915 - Junta Freguesia Cacia A --PARAGEM UNICA--
+5398020239 - 109 deposito de cacia a --PARAGEM UNICA--
+3414738004 - olho de agua A
+5174144702 - ponte das agras A
+1482460836 - viaduto de esgueira A
+4852045621 - R luis g Carvalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana B
+
+9:
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1362965504 - mario sacramento c saude b
+5403604505 - capela de aradas b
+5403605334 - rotunda pedra Moura
+5403604506 - capela de aradas A
+
+
+5403604505 - capela de aradas b
+5403605334 - rotunda pedra Moura
+5403604506 - capela de aradas A
+1362965517 - mario sacramento c saude a
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2:
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+5174144701 - ponte das agras B
+3414738003 - olho de agua b
+5398020240 - deposito cacia b
+5398020251 - junta freguesia cacia B
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 3:
+    Paragens que pertencem só a esta linha:
+        Largo Manuel Mateus Ventura A
+        Igreja Taboeira A
+        Taboeira A
+
+4873436913 - rio novo principe
+5398472060 - largo manel mateus ventura a
+5398472043 - igreja taboeira A
+5398472036 - taboeira a
+1731964632 - tanques de esgueria A
+5398378854 - fonte de esgueira
+1506392529 - esgueira carramona
+5398378851 - esgueira luciano de castro b
+1482460836 - viaduto de esgueira A
+4852045621 - r luis g carabalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1364747314 - r de ovar sus santaigo sus
+
+
+1364747314 - r de ovar sus santaigo sus
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+2185740653 - tanques de esgueira b
+5398472037 - taboeira b
+5398472044 - igreja de taboeira b
+5398472056 - largo manuel mateus ventura b
+4873436913- eb23 rio novo principe
+        
+
+    
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 4:
+    Paragens que pertencem só a esta linha:
+        Carregal - Areosa A 
+        Requeixo A 
+        Capela da Taipa A 
+        EB Requeixo 
+        Polivalente Eirol A 
+        Eixo- Praça J. Magalhães Lima A 
+        EB1 Eixo
+        EB23 de Eixo
+        Campo do Monte
+        Azurva (Pontao A17) A 
+
+5401229911 - areosa a
+5401231074 - requeixo A
+5401447596 - capela da taipa A
+5401501441 - polivalente eirol a
+5402264478 - praca j magalhaes lima a
+eb1 eixo nao tenho
+
+1901192161 - azurva pontao a17 a
+1731964632 - tanques de esgueira a
+5398378854 - fonte de esgueira 
+1506392529 - carramona
+5398378851 - luciano de castro b
+1482460836 - viaduto de esgueira a
+4852045621 - r luis g carabalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1364747314 - r de ovar -urb de santiago // sus
+
+
+1364747314 - r de ovar sus santaigo sus
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+2185740653 - tanques de esgueira b
+2185740642 - azurva pontao a17 B
+///////nao tenho eb1 eixo
+5402264485 - eb23 eixo
+5402264501 - campo dom Monte
+5402264478 - paraca j magalhes lima a
+5402264477 - praca j magalhaes lima B
+5401501440 - polivalente eirol b
+nao tenho eb requeixo
+5401231075- requeixo B
+5401229910- carregal- areosa B
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 5 + 7:
+    Paragens que pertencem só a esta linha:
+        Ernesto Paiva - EB23 S. Bernardo B 
+        Escolas SolPosto A 
+        Quinta do Torto Nascente B 
+        Colégio D.José 1 
+        Rua Viso 1
+        Glicinias
+    Rua SolPosto pertence ás linhas 7 e 6 
+
+5398378854 - fonte de esgueira 
+1506392529 - carramona
+5398378851 - luciano de castro b
+1482460836 - viaduto de esgueira a
+4852045621 - r luis g carabalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699892416 - esc jose estevao B
+5368271760 - esc mario sacramento B
+5368271755 - av da oita b
+1362965504 - av dr mario sacarmento c saude b
+1362965506 - mario sacraneto A, ///////////////////// nao tenho B mas should work
+5403434435 - glicinias b
+1699734128 - eb23 s bernardo  /////////////// nao sei se E a ou B
+5395534160 - escolas solposto A
+5403411409 - quinta do torto nascente B
+3309670572 - colegio d jose 1
+
+linha 7
+5395660092 - r do solposto a
+5403333721 -rua do viso 1 a
+5398378854 - fonte de esgueira
+1506392529 - carramona
+5398378851- luciano de castro B
+1482460836 - viaduto de esgueira
+4852045621 - r luis g carabalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1364747314 - r de ovar -urb de santiago // sus
+
+
+1364747314 - r de ovar sus santaigo sus
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+5403333722 - e do viso 1 b
+5395660093 - r do solposto b
+
+linha 5
+3309670572 - colegio d jose 1
+5403411410 - quinta do torto nascente
+5395534159 - escolas solposto b
+1699734128 - eb23 s bernardo //////////nao sei se e a ou B
+5403434434 - glicinias a
+1362965506 - mario sacramento a
+1362965517 - mario sacramento c saude A
+1699881440 - av da oita a
+5368271761 - esc m sacramento a
+5368271758 - esc jose estevao a
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+5398378854 - fonte de esgueira
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 6:
+    Paragens que pertencem só a esta linha:
+        Escolas Oliveirinha B 
+        Granja - Bica
+        Cruzeiro Da Feira
+        Escolas Oliveirinha A 
+        Junta Freguesia Santa Joana
+        Força Túnel 
+        Força Loja do Cidadão
+    Rua SolPosto pertence ás linhas 7 e 6 
+
+5395534183 - escolas velhas oliveirniha B
+5395634176 - granja Bica
+5395534137 - cruziero da Feira
+5395534182 - escolas velhas oliveirinha a
+5395534160 - escolas solposto a
+5395660099 - junta freguesia santa joana
+5394204039 - forca loja cidadao a
+estacao aveiro nao tenho
+4852045621 - r luis g carabalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699728731 - av santa joana
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1364747314 - r de ovar -urb de santiago // sus
+
+1364747314 - r de ovar sus santaigo sus
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+2834104313 - cacaodres 10 - Sé
+1799473677 - captiania a
+4852045623 - oita A
+4852088188 - ctt A
+2711749211 - estacao aveiro arlindo vicente
+5394204040 - forca loja cidadao B
+5394204053 - r de sao bras
+5395534159 - escikas solposto b
+5395534183 - escolas velhas oliveirinha b
+5395534137 - cruzeiro da Feira
+5395634176 - granja Bica
+5395534137 - cruziero da Feira
+5395534182 - escolas velhas oliveirinha a
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+Linha 7 + 5:
+    Paragens que pertencem só a esta linha:
+        Ernesto Paiva - EB23 S. Bernardo B 
+        Escolas SolPosto A 
+        Quinta do Torto Nascente B 
+        Colégio D.José 1 
+        Rua Viso 1
+        Glicinias
+    Rua SolPosto pertence ás linhas 7 e 6 
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Linha 8:
+    Paragens que pertencem só a esta linha:
+        S.Bento A
+        Igreja Póvoa do Valado
+        Mamodeiro Centro
+        S.Bento B
+        Cruz Alta
+        Junta Freguesia S Bernardo
+        Rotunda S Bernardo
+    
+XXXXXXXXXX São Bento A - Não existe
+5410260321 Póvoa do Valado (sus)
+XXXXXXXXXX Mamodeiro Centro - Não existe
+XXXXXXXXXX São Bento B - Não existe
+5405326919 EB23 Castro Matoso B 
+XXXXXXXXXX Cruz Alta - Não existe 
+2906053934 Junta Freguesia de São Bernardo A
+1699734143 Rotunda São Bernardo A 
+1362965506 Rua Doutor Mário Sacramento A
+1362965517 Rua Doutor Mário Sacramento - Centro de Saúde A sus
+1699881440 Avenida de Oita A
+5368271761 Av. 25 de Abril - Escola Mário Sacramento
+5368271758 Av. 25 de Abril - Escola José Estevão A 
+2834104313 R. Caçadores 10 - Sé
+1799473677 Av. Dr. L. Peixinho - Capitania
+4852045623 Av. Dr. L. Peixinho - Oita
+4852088188 Av. Dr. L. Peixinho - CTT
+XXXXXXXXXX estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+5398378854 - Fonte de Esgueira 
+
+5398378854 - Fonte de Esgueira 
+1506392529 - Esgueira - Carramona
+5398378851 - Esgueira - Luciano de Castro B 
+---------------------------------------------------------------------------------------------------------------------
+1482460836 - viaduto de esgueira A
+4852045621 - R luis g Carvalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699892416 - Avenida 25 de Abril - Escola José Estevão B 
+5368271760 - Avenida 25 de Abril - Escola Mário Sacramento
+5368271755 - Av. da Oita B
+1362965504 - Rua Doutor Mário Sacramento - Centro de Saúde B
+1362965512 - R. Dr. Mário Sacramento B
+1699734145 - Rotunda São Bernardo B
+5409351472 - Junta Freguesia de São Bernardo B 
+XXXXXXXXXX - Cruz alta não existe
+4874195966 - EB23 Castro Matoso A
+XXXXXXXXXX - Não existe
+5410260321 - Verba / Póvoa do Valado
+XXXXXXXXXX - Mamodeiro 
+XXXXXXXXXX - São Bento B
+---------------------------------------------------------------------------------------------------------------------
+
+
+Linha 9: (sem 2)
+    Paragens que pertencem só a esta linha:
+4852045630 - hospital universidade a
+4852045632 - iscaUA A
+1362965504 - mario sacramento c saude b
+5403604505 - capela de aradas b
+5403605334 - rotunda pedra Moura
+5403604506 - capela de aradas A
+
+
+5403604505 - capela de aradas b
+5403605334 - rotunda pedra Moura
+5403604506 - capela de aradas A
+1362965517 - mario sacramento c saude a
+1699814700 -iscaUA B
+4852045631 - hosptial universidade B
+1699728731 - santa joana A
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 10: verificado
+    Paragens que pertencem só a esta linha:
+        Igreja de Quintãs B
+        R Jośe Rosas
+        Igreja de Quintãs A 
+        Coibrão A 
+        Escola Primária Bom Sucesso A 
+        EB23 Aradas 
+        Largo Acácio Rosa
+
+
+5410259987 - Verba A 
+4874315940 - Rua do Rossio 
+4874315942 - Escolas de Nariz
+4874315947 - Fonte da Vessada
+4874252551 - Largo da Capela de Verba 
+5410259986 - Verba B 
+5405381399 - Igreja Quintãs A (devia ser a B)
+XXXXXXXXXX - Rua de José Rosas
+5405381399 - Igreja Quintãs A 
+5412037211 - Coimbrão A 
+5412037202 - Escola Primária Bom Sucesso
+5412037200 - EB 23 Aradas
+5412037196 - Largo Acácio Rosa
+1362965506 -Rua Doutor Mário Sacramento A
+1362965517 - Rua Doutor Mário Sacramento - Centro de Saúde A sus
+1699881440 - Avenida de Oita A
+5368271761 - Av. 25 de Abril - Escola Mário Sacramento
+5368271758 - Av. 25 de Abril - Escola José Estevão A 
+2834104313 - R. Caçadores 10 - Sé
+1799473677 - Av. Dr. L. Peixinho - Capitania
+4852045623 - Av. Dr. L. Peixinho - Oita
+4852088188 - Av. Dr. L. Peixinho - CTT
+XXXXXXXXXX - estacao de avieo nao tenho
+1482460601 - viaduto de esgueira b
+1482464016 -luciano de castro A
+1506393470 - esgueira pelourrinho
+5398378854 - Fonte de Esgueira 
+5398378854 - Fonte de Esgueira 
+1506392529 - Esgueira - Carramona
+5398378851 - Esgueira - Luciano de Castro B 
+1482460836 - viaduto de esgueira A
+4852045621 - R luis g Carvalho
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699892416 - Avenida 25 de Abril - Escola José Estevão B 
+5368271760 - Avenida 25 de Abril - Escola Mário Sacramento
+5368271755 - Av. da Oita B
+1362965504 - Rua Doutor Mário Sacramento - Centro de Saúde B
+1362965512 - R. Dr. Mário Sacramento B
+5412037195 - Largo Acácio Rosa B 
+5412037200 - EB 23 Aradas n ha A ou B 
+5412037203 - Escola Primária Bom Sucesso
+5412037212 - Coimbrão B 
+5405381399 - Igreja Quintãs devia ser B mas é A
+XXXXXXXXXX - José rosas n tenho
+5405381399 - Igreja Quintãs A
+5410259987 - Verba A
+4874315940 - Rua do Rossio 
+4874315942 - Escolas de Nariz
+4874315947 - Fonte fa Vessada
+4874252551 - Largo da Capela de Verba 
+5410259986 - Verba B
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 11: revisto
+    Paragens que pertencem só a esta linha:
+        (não ordenado)
+        Universidade Crasto
+        Universidade santiago
+        Univ Pavilhão 
+        Univ Reitoria
+        Universidade Antiga Reitoria
+
+XXXXXXXXXX - Terminal Rodoviário nao ha
+1699701236 - Av. Dr. L. Peixinho - CTT
+4852045622 - Av. Dr. L. Peixinho - Oita
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+XXXXXXXXXX - Santa Joana nao ha
+4852045624 - Universidade  - Antiga Reitoria A 
+4852045628 - Universidade (Crasto) 
+4852045632 - ISCAUA A 
+1699814700 - ISCAUA B 
+4852088193 - Universidade  - Antiga Reitoria B
+4852045631 - Hospital / Universidade B
+XXXXXXXXXX - Terminal Rodoviário nao ha
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Linha 12: revista
+    Paragens que pertencem só a esta linha:
+        Estação Quintãs
+
+5410259987 - Verba A 
+4874315940 - Rua do Rossio 
+4874315942 - Escolas de Nariz
+4874315947 - Fonte da Vessada
+4874252551 - Largo da Capela de Verba 
+5410259986 - Verba B 
+5405327163 - estacao de quintas a
+5405326919 - oliveirinha - eb23 castro matoso b
+
+4874195966 - eb23 castro matoso a
+5405327164 - estacao quintas b
+410259987 - Verba A 
+4874315940 - Rua do Rossio 
+4874315942 - Escolas de Nariz
+4874315947 - Fonte da Vessada
+4874252551 - Largo da Capela de Verba 
+5410259986 - Verba B 
+
+
+---------------------------------------------------------------------------------------------------------------------
+    
+
+Linha 13: revista
+    Paragens que pertencem só a esta linha:
+
+        Forte da Barra
+        São Jacinto?
+        R. Clube dos Galitos
+        Terminal ROdoviário
+s jacinto nao tenho
+forte da barra nao tenho
+5407623407 - Rua clube dos Galitos B
+4852045630 - hospital universidade A
+5407993801 - eb23 joao afonso
+1699881440- avenida da oita a
+5368271761 - esc m sacramento a
+5368271758 - esc jose estevao A
+1799473677 - capitania a
+4852045623 - oita A
+4852088188 - ctt A
+terminal rodoviario nao tenho mas should be fine
+
+terminal rodoviario nao tenho mas should be fine
+1699701236 - av dr lourenco peiinho ctt B
+4852045622 - av dr loutenco peixinho oita b
+1799473677 - capitania so tenho A mas era B
+2808808538 - cacadores 10 -misericordia
+1699892416 - jose estevao B escolas
+5368271760 - mario sacrametno escola b
+5368271755 - avenida da oita b
+5407993801 - eb23 joao afonso
+1699814700 - iscaua b
+4852088191 - avenida da universidade b
+4852045631 - Hospital / Universidade B
+1799461738 - rua clube dos galitos a
+forte da barra nao tenho
+s jacinto nao tenho
+
+
+
+
+
+
+

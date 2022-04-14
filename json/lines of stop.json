@@ -1,0 +1,893 @@
+{
+   "4873436913":{
+      "name":"EB23 Rio Novo Príncipe",
+      "lines":[
+         1,
+         3
+      ]
+   },
+   "5396335662":{
+      "name":"Escolas de Póvoa do Paço",
+      "lines":[
+         1
+      ]
+   },
+   "1721651331":{
+      "name":"Quinta Clementina",
+      "lines":[
+         1
+      ]
+   },
+   "3414738004":{
+      "name":"Olho de Água",
+      "lines":[
+         1,
+         2
+      ]
+   },
+   "5174144702":{
+      "name":"Ponte das Agras",
+      "lines":[
+         1,
+         2
+      ]
+   },
+   "1482460836":{
+      "name":"Viaduto de Esgueira",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "4852045621":{
+      "name":"R. Luís G. Carvalho",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10
+      ]
+   },
+   "1699701236":{
+      "name":"Av. Dr. L. Peixinho - CTT",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         11,
+         13
+      ]
+   },
+   "4852045622":{
+      "name":"Av. Dr. L. Peixinho - Oita",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         11,
+         13
+      ]
+   },
+   "1799473677":{
+      "name":"Av. Dr. L. Peixinho - Capitania",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         11,
+         13
+      ]
+   },
+   "2808808538":{
+      "name":"Rua Caçadores 10 - Misericórdia",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         11,
+         13
+      ]
+   },
+   "1699728731":{
+      "name":"Avenida Santa Joana",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6
+      ]
+   },
+   "4852045630":{
+      "name":"Hospital / Universidade",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         13
+      ]
+   },
+   "4852045632":{
+      "name":"ISCAUA",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         11
+      ]
+   },
+   "1364747314":{
+      "name":"R. de Ovar",
+      "lines":[
+         1,
+         3,
+         4,
+         5,
+         6
+      ]
+   },
+   "1699814700":{
+      "name":"ISCAUA",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         11,
+         13
+      ]
+   },
+   "4852045631":{
+      "name":"Hospital / Universidade",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         11,
+         13
+      ]
+   },
+   "2834104313":{
+      "name":"R. Caçadores 10 - Sé",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10
+      ]
+   },
+   "4852045623":{
+      "name":"Av. Dr. L. Peixinho - Oita",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         13
+      ]
+   },
+   "4852088188":{
+      "name":"Av. Dr. L. Peixinho - CTT",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         8,
+         10,
+         13
+      ]
+   },
+   "1482460601":{
+      "name":"Viaduto de Esgueira",
+      "lines":[
+         1,
+         2,
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "5174144701":{
+      "name":"Ponte das Agras",
+      "lines":[
+         1,
+         2
+      ]
+   },
+   "3414738003":{
+      "name":"Olho de Água",
+      "lines":[
+         1,
+         2
+      ]
+   },
+   "5396335661":{
+      "name":"Escolas de Póvoa do Paço",
+      "lines":[
+         1
+      ]
+   },
+   "4873464186":{
+      "name":"Lavadouros de Sarrazola",
+      "lines":[
+         1
+      ]
+   },
+   "4873436915":{
+      "name":"Junta de Freguesia de Cacia",
+      "lines":[
+         2
+      ]
+   },
+   "5398020239":{
+      "name":"109 / Depósito de Cacia",
+      "lines":[
+         2
+      ]
+   },
+   "1362965504":{
+      "name":"Rua Doutor Mário Sacramento - Centro de Saúde B",
+      "lines":[
+         2,
+         5,
+         8,
+         10
+      ]
+   },
+   "5403604505":{
+      "name":"Capela de Aradas",
+      "lines":[
+         2
+      ]
+   },
+   "5403605334":{
+      "name":"Rotunda da Pedra Moura",
+      "lines":[
+         2
+      ]
+   },
+   "5403604506":{
+      "name":"Capela de Aradas",
+      "lines":[
+         2
+      ]
+   },
+   "1362965517":{
+      "name":"Rua Doutor Mário Sacramento - Centro de Saúde A",
+      "lines":[
+         2,
+         5,
+         8,
+         10
+      ]
+   },
+   "5398020240":{
+      "name":"109 / Depósito de Cacia",
+      "lines":[
+         2
+      ]
+   },
+   "5398020251":{
+      "name":"Junta de Freguesia de Cacia",
+      "lines":[
+         2
+      ]
+   },
+   "5398472060":{
+      "name":"Largo Manuel Mateus Ventura",
+      "lines":[
+         3
+      ]
+   },
+   "5398472043":{
+      "name":"Igreja de Taboeira",
+      "lines":[
+         3
+      ]
+   },
+   "5398472036":{
+      "name":"Taboeira",
+      "lines":[
+         3
+      ]
+   },
+   "1731964632":{
+      "name":"Tanques de Esgueira",
+      "lines":[
+         3,
+         4
+      ]
+   },
+   "5398378854":{
+      "name":"Fonte de Esgueira",
+      "lines":[
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "1506392529":{
+      "name":"Esgueira - Carramona",
+      "lines":[
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "5398378851":{
+      "name":"Esgueira - Luciano de Castro",
+      "lines":[
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "1482464016":{
+      "name":"Esgueira - Luciano de Castro",
+      "lines":[
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "1506393470":{
+      "name":"Esgueira - Pelourinho",
+      "lines":[
+         3,
+         4,
+         5,
+         8,
+         10
+      ]
+   },
+   "2185740653":{
+      "name":"Tanques de Esgueira",
+      "lines":[
+         3,
+         4
+      ]
+   },
+   "5398472037":{
+      "name":"Taboeira",
+      "lines":[
+         3
+      ]
+   },
+   "5398472044":{
+      "name":"Igreja de Taboeira",
+      "lines":[
+         3
+      ]
+   },
+   "5398472056":{
+      "name":"Largo Manuel Mateus Ventura",
+      "lines":[
+         3
+      ]
+   },
+   "5401229911":{
+      "name":"Carregal - Areosa",
+      "lines":[
+         4
+      ]
+   },
+   "5401231074":{
+      "name":"Requeixo",
+      "lines":[
+         4
+      ]
+   },
+   "5401447596":{
+      "name":"Capela da Taipa",
+      "lines":[
+         4
+      ]
+   },
+   "5401501441":{
+      "name":"Polivalente Eirol",
+      "lines":[
+         4
+      ]
+   },
+   "5402264478":{
+      "name":"Praça J. Magalhães Lima",
+      "lines":[
+         4
+      ]
+   },
+   "5402264485":{
+      "name":"EB 23 de Eixo",
+      "lines":[
+         4
+      ]
+   },
+   "5402264501":{
+      "name":"Campo do Monte",
+      "lines":[
+         4
+      ]
+   },
+   "1901192161":{
+      "name":"Azurva (Pontão A17)",
+      "lines":[
+         4
+      ]
+   },
+   "2185740642":{
+      "name":"Azurva (Pontão A17)",
+      "lines":[
+         4
+      ]
+   },
+   "5402264477":{
+      "name":"Praça J. Magalhães Lima",
+      "lines":[
+         4
+      ]
+   },
+   "5401501440":{
+      "name":"Polivalente Eirol",
+      "lines":[
+         4
+      ]
+   },
+   "5401231075":{
+      "name":"Requeixo",
+      "lines":[
+         4
+      ]
+   },
+   "5401229910":{
+      "name":"Carregal - Areosa",
+      "lines":[
+         4
+      ]
+   },
+   "1699892416":{
+      "name":"Avenida 25 de Abril - Escola José Estevão",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "5368271760":{
+      "name":"Avenida 25 de Abril - Escola Mário Sacramento",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "5368271755":{
+      "name":"Av. da Oita",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "1362965506":{
+      "name":"Rua Doutor Mário Sacramento",
+      "lines":[
+         5,
+         8,
+         10
+      ]
+   },
+   "5403434435":{
+      "name":"Glicínias",
+      "lines":[
+         5
+      ]
+   },
+   "1699734128":{
+      "name":"EB 23 S. Bernardo",
+      "lines":[
+         5
+      ]
+   },
+   "5395534160":{
+      "name":"Escolas Solposto",
+      "lines":[
+         5,
+         6
+      ]
+   },
+   "5403411409":{
+      "name":"Quinta do Torto Nascente",
+      "lines":[
+         5
+      ]
+   },
+   "3309670572":{
+      "name":"Colégio D. José I",
+      "lines":[
+         5
+      ]
+   },
+   "5395660092":{
+      "name":"R. Solposto",
+      "lines":[
+         5
+      ]
+   },
+   "5403333721":{
+      "name":"R. do Viso 1",
+      "lines":[
+         5
+      ]
+   },
+   "5403333722":{
+      "name":"R. do Viso 1",
+      "lines":[
+         5
+      ]
+   },
+   "5395660093":{
+      "name":"R. Solposto",
+      "lines":[
+         5
+      ]
+   },
+   "5403411410":{
+      "name":"Quinta do Torto Nascente",
+      "lines":[
+         5
+      ]
+   },
+   "5395534159":{
+      "name":"Escolas Solposto",
+      "lines":[
+         5,
+         6
+      ]
+   },
+   "5403434434":{
+      "name":"Glicínias",
+      "lines":[
+         5
+      ]
+   },
+   "1699881440":{
+      "name":"Avenida de Oita",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "5368271761":{
+      "name":"Av. 25 de Abril - Escola Mário Sacramento",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "5368271758":{
+      "name":"Av. 25 de Abril - Escola José Estevão",
+      "lines":[
+         5,
+         8,
+         10,
+         13
+      ]
+   },
+   "5395534183":{
+      "name":"Escolas Velhas Oliveirinha",
+      "lines":[
+         6
+      ]
+   },
+   "5395634176":{
+      "name":"Granja - Bica",
+      "lines":[
+         6
+      ]
+   },
+   "5395534137":{
+      "name":"Cruzeiro da Feira",
+      "lines":[
+         6
+      ]
+   },
+   "5395534182":{
+      "name":"Escolas Velhas Oliveirinha",
+      "lines":[
+         6
+      ]
+   },
+   "5395660099":{
+      "name":"Junta Freguesia Santa Joana",
+      "lines":[
+         6
+      ]
+   },
+   "5394204039":{
+      "name":"Forca - Loja do Cidadão",
+      "lines":[
+         6
+      ]
+   },
+   "2711749211":{
+      "name":"Estação - R. Arlindo Vicente",
+      "lines":[
+         6
+      ]
+   },
+   "5394204040":{
+      "name":"Forca - Loja do Cidadão",
+      "lines":[
+         6
+      ]
+   },
+   "5394204053":{
+      "name":"Rua de São Brás",
+      "lines":[
+         6
+      ]
+   },
+   "5410260321":{
+      "name":"Verba / Póvoa do Valado",
+      "lines":[
+         8
+      ]
+   },
+   "5405326919":{
+      "name":"EB23 Castro Matoso",
+      "lines":[
+         8,
+         12
+      ]
+   },
+   "2906053934":{
+      "name":"Junta Freguesia de São Bernardo",
+      "lines":[
+         8
+      ]
+   },
+   "1699734143":{
+      "name":"Rotunda São Bernardo",
+      "lines":[
+         8
+      ]
+   },
+   "1362965512":{
+      "name":"R. Dr. Mário Sacramento",
+      "lines":[
+         8,
+         10
+      ]
+   },
+   "1699734145":{
+      "name":"Rotunda São Bernardo",
+      "lines":[
+         8
+      ]
+   },
+   "5409351472":{
+      "name":"Junta Freguesia de São Bernardo",
+      "lines":[
+         8
+      ]
+   },
+   "4874195966":{
+      "name":"EB23 Castro Matoso",
+      "lines":[
+         8,
+         12
+      ]
+   },
+   "5410259987":{
+      "name":"Verba",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "4874315940":{
+      "name":"Rua do Rossio",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "4874315942":{
+      "name":"Escolas de Nariz",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "4874315947":{
+      "name":"Fonte da Vessada",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "4874252551":{
+      "name":"Largo da Capela de Verba",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "5410259986":{
+      "name":"Verba",
+      "lines":[
+         10,
+         12
+      ]
+   },
+   "5405381399":{
+      "name":"Igreja Quintãs",
+      "lines":[
+         10
+      ]
+   },
+   "5412037211":{
+      "name":"Coimbrão",
+      "lines":[
+         10
+      ]
+   },
+   "5412037202":{
+      "name":"Escola Primária Bom Sucesso",
+      "lines":[
+         10
+      ]
+   },
+   "5412037200":{
+      "name":"EB 23 Aradas",
+      "lines":[
+         10
+      ]
+   },
+   "5412037196":{
+      "name":"Largo Acácio Rosa",
+      "lines":[
+         10
+      ]
+   },
+   "5412037195":{
+      "name":"Largo Acácio Rosa",
+      "lines":[
+         10
+      ]
+   },
+   "5412037203":{
+      "name":"Escola Primária Bom Sucesso",
+      "lines":[
+         10
+      ]
+   },
+   "5412037212":{
+      "name":"Coimbrão",
+      "lines":[
+         10
+      ]
+   },
+   "4852045624":{
+      "name":"Universidade  - Antiga Reitoria A",
+      "lines":[
+         11
+      ]
+   },
+   "4852045628":{
+      "name":"Universidade (Crasto)",
+      "lines":[
+         11
+      ]
+   },
+   "4852088193":{
+      "name":"Universidade  - Antiga Reitoria B",
+      "lines":[
+         11
+      ]
+   },
+   "5405327163":{
+      "name":"Estação de Quintãs",
+      "lines":[
+         12
+      ]
+   },
+   "5405327164":{
+      "name":"Estação de Quintãs",
+      "lines":[
+         12
+      ]
+   },
+   "5407623407":{
+      "name":"Rua do Clube dos Galitos",
+      "lines":[
+         13
+      ]
+   },
+   "5407993801":{
+      "name":"EB 23 João Afonso",
+      "lines":[
+         13
+      ]
+   },
+   "4852088191":{
+      "name":"Avenida da Universidade",
+      "lines":[
+         13
+      ]
+   },
+   "1799461738":{
+      "name":"Rua do Clube dos Galitos A",
+      "lines":[
+         13
+      ]
+   }
+}
