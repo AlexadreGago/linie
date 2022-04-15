@@ -11,7 +11,11 @@ ends_turns=[(4873436913, 1364747314, 4873436913), #1
             (5407623407, 4852088188, 1799461738)] #13
             # Start     ,  Turn     ,   End
             
+line_starts = list(map (lambda x:(x[0]),ends_turns))
+line_turns = list(map (lambda x:(x[1]),ends_turns))
 line_ends= list(map (lambda x:(x[2]),ends_turns))
 
 
+print(line_starts)
+print(line_turns)
 print(line_ends)
