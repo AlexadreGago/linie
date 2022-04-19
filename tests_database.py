@@ -1,243 +1,84 @@
-import json
-import time
-import distance as dist
-
-import paho.mqtt.client as mqtt
-
-import time
-import datetime
 import pymongo
+import datetime
+from datetime import date
 
-bus_list = {}
+import time
+from datetime import datetime
 
-
-#TESTE---------------------
-#!working---------------------------------
-# temp = autocarro.copy()
-# temp['id'] = 1
-# temp['linhas'] = [1,2,3]
-# bus_list.append(temp)
-
-# temp = autocarro.copy()
-# temp['id'] = 2
-# temp['linhas'] = [3,4,5]
-# bus_list.append(temp)
-
-# print("Autocarro_lista: ", bus_list)
-#!----------------------------------------
-#bus_list[0]=[1,2,3,4,5,6,7,8,9,10,11,12,13]
-
-#bus_list[50]=[1,2,3,4,5,6,7,8,9,10,11,12,13]
-
-
-
-#!REAL DATA---------------------
-
-# received_data=[] # receber data por mqtt
-
-# file=open('json/stops per line.json', mode="r")
-# stops_of_line = json.load(file, encoding='utf-8')
-
-# file=open('json/lines of stop.json', mode="r")
-# lines_of_stop = json.load(file, encoding='utf-8')
-
-# file=open('json/stops.json', mode="r")
-# stops = json.load(file, encoding='utf-8')
-#!--------------------------------------
-
-#!DUMMY DATA -----------------------------------
-file=open('Dummy/DummyStop_per_line.json', mode="r")
-stops_of_line = json.load(file, encoding='utf-8')
-
-file=open('Dummy/DummyLines_per_stop.json', mode="r")
-lines_of_stop = json.load(file, encoding='utf-8')
-
-file=open('Dummy/DummyStops.json', mode="r")
-stops = json.load(file, encoding='utf-8')
-
-#!----------------------------------------------
-
-
-def getLinesOfStop(stop_id):  #*WORKING
-    for stop in lines_of_stop:
-        if str(stop_id) == stop:
-            return lines_of_stop[stop]['lines'] #!Index 1 is the name of the stop
-        
-
-def ParagemUnica(paragem): # give stop and return if its the only stop in its line
-    paragem= str(paragem) #* WORKING
-    for stop in lines_of_stop:
-        if paragem == stop and len(lines_of_stop[stop]['lines']) == 1:
-            return True
-    return False
-
-def checkStop(coordenadas): # check if a stop is nearby
-    candidates=[]
-    for stop in stops: #* WORKING
-        tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.1) # 0.2 km is the range to check
-        if tuple[0] : 
-            candidates.append((stop, tuple[1])) if stop not in candidates else candidates 
-        #return min of a tuple in the second argument and default value if there is no tuple
-    return min(candidates, key=lambda x: x[1])[0] if candidates else 0 #!ID 0 means no stop is nearby
-   
-
-def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, change the saved lines of 
-                                # that bus so that it coincides with the lines of the stop that that bus passed through 
-                                # ex : saved : [1,2,3,4]
-                                # new : [4,5]
-                                # change to : [4]
-                                
-    #!DISCLAIMER:
-    #When i did this only I and God knew how it worked, now only God knows
-    
-    stops_of_line = getLinesOfStop(paragem) # return the lines that pass through the stop
-    possible_lines = [] # array para guardar as linhas possiveis
-   
-    for line in stops_of_line: 
-        for linha_guardada in bus_list[bus_id]: 
-            if line == linha_guardada : # ha aqui u problema com as linhas que nao existem no json 
-                possible_lines.append(line)
-                
-    bus_list[bus_id] = possible_lines # guarda as linhas possiveis
-    return # atualizacao das linhas possiveis
-    
-def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
-    
-    #bus_id = 50
-    if bus_id not in bus_list.keys():
-        bus_list[bus_id] = [1,2,3,4,5,6,7,8,9,10,11,12,13]
-    #check if id in dictionary
-    for time in bus['data']:
-        for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
-            print(bus_list)
-            coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
-       
-            paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
-            if paragem == 0:   
-               
-                continue 
-            else:
-              
-                if ParagemUnica(paragem):
-                    bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
-                   
-                    return
-                else:
-                   
-                    Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
-                                                                    # com as linhas possiveis novas
-                    if(len(bus_list[bus_id])==1):
-                        print("linha unica")
-                    #     #TODO send linha á app
-
-    #else: # autocarro novo
-
-     #       for coordenada in received_data.autocarro.coordenadas: # para cada paragem que esta no historico da OBU
-      #          paragem = checkStop(coordenada) # verificar se a paragem existe e devolve o ID dela 
-       #         bus[id_bus] = getLinesOfStop(paragem) # receber a(s) linha(s) da paragem 
-
-
-
-    if(len(bus_list[bus_id])==1):
-        print("Linha %d atribuida ao autocarro %d" % bus_list[bus_id][0], int(bus_id) )
-    #     #TODO send linha á app
-    
-    return bus_list[bus_id]
-
-    
-# print(getLinesOfStop(1364747314))
-# print(ParagemUnica(1364747314)) #false
-# print(ParagemUnica(5407623407)) #true
-
-#coords=(40.64045,-8.651793333)
-
-#print(checkStop(coords))
-
-
-
-
-# def Line_detection():
-#     while(True):
-
-#         receiver = connect_mqtt()
-#         receiver.loop_start()
-#         publish(receiver)
-
-#         #when a new bus appears in real-time
-#         #get history of the last hour 
-
-#         for autocarro in received_data[autocarro]: # processar os dados autocarro a autocarro
-#             Find_line_of_bus(autocarro) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
-
-#         time.sleep(1)
-
-
-
-
-def Line_detection():
-    while True:
-        for bus in received_data: # processar os dados autocarro a autocarro
-            
-            bus_list_old = getDataDb(bus)
-            
-            possible_lines = Find_line_of_bus(bus)
-            stop_id = checkStop(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
-            timestamp = bus['timestamp']
-            
-            sendDataDb(stop_id,possible_lines,timestamp) # possivelmente o stop_id tem de ser passado a string
-        
-        #TODO Send bus_list to app
-        received_data = {}
-
-#Send data to database
-#TODO É preciso guardar na base de dados o ID da paragem porque senão não sabemos como comparar os autocarros porque eles têm ids diferentes numa mesma paragem
-def sendDataDb(stop_id,possible_lines,timestamp):
-
+def SendLineData(line,timestamp,day,stops_ids):
     dic={}
+
+    dic["day"] = day
     dic["time"] = timestamp
-    dic["stop_id"]=stop_id
+    dic["stop_id"]= stops_ids
+
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
+
+    db = myclient["Database_lines"] # acess the database
+
+    line_col = db["Linha: "+str(line)]# get/create the collection
+
+    x = line_col.insert_one(dic) # insert data
+    
+
+def SendBusData(bus_id,timestamp,day,possible_lines):
+    
+    dic={}
+    dic["day"] = day
+    dic["time"] = timestamp
+    dic["bus_id"]= bus_id
     dic["possible_lines"] = possible_lines
 
     myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
 
-    db = myclient["database_lines"] # acess the database
+    db = myclient["Bus_lines"] # acess the database
 
-    day = db[str(datetime.date.today())]# get/create the collection
+    bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
 
-    x = day.insert_one(dic) # insert data
-
-def getDataDb(autocarro):
+    x = bus_col.insert_one(dic) # insert data
     
+    
+#    TESTING 
+# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123,245,35678])
+# time.sleep(1)
+# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123,245,35678,12345,987654,456789])
+
+
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1,2,6])
+# time.sleep(1)
+
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1])
+
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[1,2,9])
+# time.sleep(1)
+
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[2])
+
+
+def MapBoxTimeStampsPrediction(line,bus_id,stopAndTimestamp) :
+    dic={}
+    dic["Line"] = line
+    dic["stopAndTimestamp"]= stopAndTimestamp
+
     myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
+
+    db = myclient["MapBoxTimeStampsPrediction"] # acess the database
+
+    bus_col = db["Bus_Id: "+ str(bus_id)]# get/create the collection
+
+    x = bus_col.insert_one(dic) # insert data
     
-    db = myclient["database_lines"] # acess the database
-    
-    days = db.list_collection_names()
-    #print(days)
-    
-    day = db[str(datetime.date.today())]#! dia para recolher imformação
-
-    cursor = day.find({}) # cursor no incio do documento
-
-    data = list(cursor) # devolve lista da collection
-    
-    temp=[]
-    for a in data: # iterar a collection para receber os tempos
-        temp.append(a["time"])
-
-    myquery = {"time": min(temp)} #! escolher o tempo desejado para receber
-
-    dia = day.find(myquery) # procurar na collection esse tempo
-
-    for x in dia:
-        dados_fim = x # devolve a busList no dia passado nas horas desejadas
-    
-    return dados_fim
-        
-#if __name__ == "__Line_detection__":
-#Line_detection()
-
-#Find_line_of_bus(bus,50)
-#print(bus_list)
-
+# prediçao1 = (123,datetime.now().strftime("%H:%M:%S"))
+# MapBoxTimeStampsPrediction(7,50,prediçao1)
+# time.sleep(1)
+# prediçao2 = (321,datetime.now().strftime("%H:%M:%S"))
+# MapBoxTimeStampsPrediction(7,50,prediçao2)
 
