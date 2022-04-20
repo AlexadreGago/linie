@@ -55,9 +55,9 @@ def updateBusData(bus_id,timestamp,day,possible_lines):
     
 
     
-now = datetime.now()
-current_time = now.strftime("%H:%M:%S")
-updateBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[2])
+# now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# updateBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[2])
     
     
     
