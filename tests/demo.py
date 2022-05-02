@@ -1,4 +1,4 @@
-import tests.tests_begining as ld
+import testsMain as ld
 import pprint
 import pymongo
 

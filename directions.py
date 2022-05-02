@@ -1,6 +1,6 @@
 import requests
 import json
-import tests.tests_begining as tests_begining
+import testsMain as testsMain
 import urllib.parse
 
 file=open('json/stops per line.json', mode="r")

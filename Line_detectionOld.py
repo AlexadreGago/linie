@@ -86,7 +86,7 @@ def Find_line_of_bus(received_data,autocarro): #*TODO Find line(s) of bus by ID
 
     if(len(autocarros[id_bus])==1):
         print("linha %d atribuida ao autocarro ",autocarros[id_bus],id_bus)
-        #TODO send linha á app
+        #TODO Update Database
 
 
 
