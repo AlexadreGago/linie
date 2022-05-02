@@ -29,27 +29,27 @@ bus_list = {}
 
 #!REAL DATA---------------------
 
-# received_data=[] # receber data por mqtt
+received_data=[] # receber data por mqtt
 
-# file=open('json/stops per line.json', mode="r")
-# stops_of_line = json.load(file, encoding='utf-8')
+file=open('json/stops per line.json', mode="r")
+stops_of_line = json.load(file, encoding='utf-8')
 
-# file=open('json/lines of stop.json', mode="r")
-# lines_of_stop = json.load(file, encoding='utf-8')
+file=open('json/lines of stop.json', mode="r")
+lines_of_stop = json.load(file, encoding='utf-8')
 
-# file=open('json/stops.json', mode="r")
-# stops = json.load(file, encoding='utf-8')
+file=open('json/stops.json', mode="r")
+stops = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
 #!DUMMY DATA -----------------------------------
-file=open('Dummy/DummyStop_per_line.json', mode="r")
-stops_of_line = json.load(file, encoding='utf-8')
+# file=open('Dummy/DummyStop_per_line.json', mode="r")
+# stops_of_line = json.load(file, encoding='utf-8')
 
-file=open('Dummy/DummyLines_per_stop.json', mode="r")
-lines_of_stop = json.load(file, encoding='utf-8')
+# file=open('Dummy/DummyLines_per_stop.json', mode="r")
+# lines_of_stop = json.load(file, encoding='utf-8')
 
-file=open('Dummy/DummyStops.json', mode="r")
-stops = json.load(file, encoding='utf-8')
+# file=open('Dummy/DummyStops.json', mode="r")
+# stops = json.load(file, encoding='utf-8')
 
 #!----------------------------------------------
 
@@ -74,7 +74,9 @@ def checkStop(coordenadas): # check if a stop is nearby
         if tuple[0] : 
             candidates.append((stop, tuple[1])) if stop not in candidates else candidates 
         #return min of a tuple in the second argument and default value if there is no tuple
-    return min(candidates, key=lambda x: x[1])[0] if candidates else 0 #!ID 0 means no stop is nearby
+    paragem=min(candidates, key=lambda x: x[1])[0] if candidates else 0
+    print("paragem -- " ,stops[str(paragem)]['name'])
+    return  paragem #!ID 0 means no stop is nearby
    
 
 def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, change the saved lines of 
@@ -98,33 +100,40 @@ def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, 
     return # atualizacao das linhas possiveis
     
 def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
-    
+    temp={}
     #bus_id = 50
     if bus_id not in bus_list.keys():
         bus_list[bus_id] = [1,2,3,4,5,6,7,8,9,10,11,12,13]
     #check if id in dictionary
     for time in bus['data']:
-        for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
-            print(bus_list)
-            coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
-       
-            paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
-            if paragem == 0:   
-               
-                continue 
+        print("len:",len(bus_list[bus_id]))
+        if(len(bus_list[bus_id])==0):
+            bus_list[bus_id] = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+            print("a")
+        if(len(bus_list[bus_id])==1):
+            temp= [1,2,3,4,5,6,7,8,9,10,11,12,13]
+            print("a") 
+        print(time)
+        #for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
+        print(bus_list)
+        coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
+    
+        paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
+        if paragem == 0:   
+            continue 
+        else:
+            
+            if ParagemUnica(paragem):
+                bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
+                #print("unga bunga")
+                #return
             else:
-              
-                if ParagemUnica(paragem):
-                    bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
-                   
-                    return
-                else:
-                   
-                    Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
-                                                                    # com as linhas possiveis novas
-                    if(len(bus_list[bus_id])==1):
-                        print("linha unica")
-                    #     #TODO send linha á app
+                
+                Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
+                                                                # com as linhas possiveis novas
+                if(len(bus_list[bus_id])==1):
+                    print("linha unica")
+                #     #TODO send linha á app
 
     #else: # autocarro novo
 
@@ -135,7 +144,10 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
 
 
     if(len(bus_list[bus_id])==1):
-        print("Linha %d atribuida ao autocarro %d" % bus_list[bus_id][0], int(bus_id) )
+        print("u")
+
+        #
+        #print("Linha %d atribuida ao autocarro %d" % bus_list[bus_id][0], int(bus_id) )
     #     #TODO send linha á app
 
     

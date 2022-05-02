@@ -26,7 +26,7 @@ url = "https://api.mapbox.com/directions/v5/mapbox/driving/-8.6547145 , 40.63162
 #     count = 0
 str=""
 #for line in stops_of_line:
-for stop in stops_of_line['1']:
+for stop in stops_of_line['13']:
     print(stop['lon'],"," ,stop['lat'], ";")
     str+="{},{};".format(stop['lon'],stop['lat'])
 
@@ -36,4 +36,4 @@ response = requests.get(url)
 
 with open('json/line1.json', 'w') as outfile:
      json.dump(response.json(), outfile, ensure_ascii=False)
-print(response.json())
+#print(response.json())

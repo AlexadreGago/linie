@@ -82,8 +82,9 @@ def Find_line_of_bus(received_data,autocarro): #*TODO Find line(s) of bus by ID
                 paragem = checkStop(coordenada) # verificar se a paragem existe e devolve o ID dela 
                 autocarro[id_bus] = getLinesOfStop(paragem) # receber a(s) linha(s) da paragem 
 
-
-
+    print("a")
+    print(len(autocarros[id_bus])==1)
+    print()
     if(len(autocarros[id_bus])==1):
         print("linha %d atribuida ao autocarro ",autocarros[id_bus],id_bus)
         #TODO send linha á app

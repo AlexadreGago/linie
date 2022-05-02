@@ -1,6 +1,7 @@
 import tests as ld
 import pprint
 import pymongo
+import json
 
 bus2={
     "data":{
@@ -137,6 +138,10 @@ bus5={
 
     }   
 }
+
+
+file=open('json/message.json', mode="r")
+bus = json.load(file, encoding='utf-8')
 # print(ld.ParagemUnica(7))
 # print(ld.checkStop((40.624795, -8.647746)))
 #ld.Find_line_of_bus(bus1, 1)
@@ -147,13 +152,17 @@ bus5={
 #measure execution time
 import time
 start_time = time.time()
-ld.Find_line_of_bus(bus2, 2)
+#ld.Find_line_of_bus(bus2, 2)
 stop_time = time.time()
 
-ld.Find_line_of_bus(bus3, 3)
-ld.Find_line_of_bus(bus4, 4)
-ld.Find_line_of_bus(bus5, 5)
-stop2_time = time.time()
+#ld.Find_line_of_bus(bus3, 3)
+#ld.Find_line_of_bus(bus4, 4)
+
+x = ld.Find_line_of_bus(bus['99'], 52)
+print(x)
+
+
+#stop2_time = time.time()
 
 
 # print("1 autocarro : " ,stop_time - start_time)
@@ -161,43 +170,3 @@ stop2_time = time.time()
 
 #------------------------------------------------------------
 #Send data to database
-import time
-import datetime
-
-keys_values = ld.bus_list.items()
-
-dic={}
-dic["time"] = str(datetime.datetime.now().time())
-dic["bus_list"] = {str(key): (value) for key, value in keys_values}
-
-myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
-
-db = myclient["database_lines"] # acess the database
-
-day = db[str(datetime.date.today())]# get/create the collection
-
-#x = day.insert_one(dic) # insert data
-
-#--------------------------------------------------------------
-#get day from database
-days = db.list_collection_names()
-print(days)
-
-day = db[str(datetime.date.today())]
-
-cursor = day.find({}) # cursor no incio do documento
-
-data = list(cursor) # devolve lista da collection
-temp=[]
-for a in data: # iterar a collection para receber os tempos
-    temp.append(a["time"])
-
-myquery = {"time": min(temp)} # escolher o tempo desejado para receber
-
-dia = day.find(myquery) # procurar na collection esse tempo
-
-for x in dia:
-    dados_fim = x
- 
-print(dados_fim)
-print(dados_fim["bus_list"])

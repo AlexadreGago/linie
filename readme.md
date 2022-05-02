@@ -1,6 +1,6 @@
 ->docker build .
 
-->docker run "docker image"
+->`sudo docker run --name mongodb -d -p 27017:27017 mongo`
 
 #Open another terminal
 ->docker exec -it "DOCKER CONTAINER ID" sh

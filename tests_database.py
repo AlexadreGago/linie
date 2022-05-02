@@ -44,23 +44,23 @@ def SendBusData(bus_id,timestamp,day,possible_lines):
 # SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123,245,35678,12345,987654,456789])
 
 
-# now = datetime.now()
-# current_time = now.strftime("%H:%M:%S")
-# SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1,2,6])
-# time.sleep(1)
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1,2,6])
+time.sleep(1)
 
-# now = datetime.now()
-# current_time = now.strftime("%H:%M:%S")
-# SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1])
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1])
 
-# now = datetime.now()
-# current_time = now.strftime("%H:%M:%S")
-# SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[1,2,9])
-# time.sleep(1)
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[1,2,9])
+time.sleep(1)
 
-# now = datetime.now()
-# current_time = now.strftime("%H:%M:%S")
-# SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[2])
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[2])
 
 
 def MapBoxTimeStampsPrediction(line,bus_id,stopAndTimestamp) :
