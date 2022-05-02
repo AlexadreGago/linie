@@ -1,8 +1,10 @@
 import json
 import time
 import distance as dist
-
+from tests import pymongo_functions
 import paho.mqtt.client as mqtt
+from datetime import datetime
+from datetime import date
 
 bus_list = {}
 
@@ -39,6 +41,9 @@ lines_of_stop = json.load(file, encoding='utf-8')
 
 file=open('json/stops.json', mode="r")
 stops = json.load(file, encoding='utf-8')
+
+file=open('json/stops.json', mode="r")
+ends_of_line = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
 #!DUMMY DATA -----------------------------------
@@ -97,7 +102,7 @@ def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, 
                 possible_lines.append(line)
                 
     bus_list[bus_id] = possible_lines # guarda as linhas possiveis
-    return # atualizacao das linhas possiveis
+    return possible_lines# atualizacao das linhas possiveis
     
 def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     temp={}
@@ -117,30 +122,31 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         #for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
         print(bus_list)
         coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
+        possible_lines={}
     
         paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
         if paragem == 0:   
             continue 
         else:
-            
             if ParagemUnica(paragem):
                 bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
                 #print("unga bunga")
                 #return
             else:
                 
-                Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
-                                                                # com as linhas possiveis novas
+                possible_lines = Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
+                                                                # com as linhas possiveis novas                                                                
                 if(len(bus_list[bus_id])==1):
                     print("linha unica")
                 #     #TODO send linha á app
+                
+        pymongo_functions.SendBusData(bus_id,list(bus['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),possible_lines,paragem)
 
     #else: # autocarro novo
 
      #       for coordenada in received_data.autocarro.coordenadas: # para cada paragem que esta no historico da OBU
       #          paragem = checkStop(coordenada) # verificar se a paragem existe e devolve o ID dela 
        #         bus[id_bus] = getLinesOfStop(paragem) # receber a(s) linha(s) da paragem 
-
 
 
     if(len(bus_list[bus_id])==1):
@@ -179,13 +185,26 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
 
 
 
-
+def filterData(bus):
+    temp = {}
+    
+    for time in bus['data']:
+        coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
+        paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
+        if paragem in ends_of_line.keys():
+            #TODO
+            temp.clear()
+        else:
+            temp[time] = bus['data'][time]
+    return temp
+    
 def Line_detection():
 
     while True:
 
-        for autocarro in received_data: # processar os dados autocarro a autocarro
-            Find_line_of_bus(autocarro) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
+        for bus in received_data: # processar os dados autocarro a autocarro
+            #bus_filter = filterData(bus)
+            Find_line_of_bus(bus) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
 
 
 #if __name__ == "__Line_detection__":

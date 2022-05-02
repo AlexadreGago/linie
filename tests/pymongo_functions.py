@@ -5,14 +5,15 @@ from datetime import date
 import time
 from datetime import datetime
 
-def SendLineData(line,timestamp,day,stops_ids):
+def SendLineData(line,timestamp,day,stops_ids,rua):
     dic={}
 
     dic["day"] = day
     dic["time"] = timestamp
     dic["stop_id"]= stops_ids
+    dic["rua"] = rua
 
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
 
     db = myclient["Database_lines"] # acess the database
 
@@ -21,25 +22,26 @@ def SendLineData(line,timestamp,day,stops_ids):
     x = line_col.insert_one(dic) # insert data
     
 
-def SendBusData(bus_id,timestamp,day,possible_lines):
+def SendBusData(bus_id,timestamp,day,possible_lines,paragem):
     
     dic={}
     dic["day"] = day
     dic["time"] = timestamp
     dic["bus_id"]= bus_id
+    dic["paragem"] = paragem
     dic["possible_lines"] = possible_lines
 
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
     bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
-
+    #bus_col.drop()
     x = bus_col.insert_one(dic) # insert data
     
 def updateBusData(bus_id,timestamp,day,possible_lines): 
 
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017")
     
     mydb = myclient["Bus_lines"]
     mycol = mydb["Bus_Data: "+ str(bus_id)]
@@ -61,10 +63,10 @@ def updateBusData(bus_id,timestamp,day,possible_lines):
     
     
     
-#    TESTING 
-# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123,245,35678])
-# time.sleep(1)
-# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123,245,35678,12345,987654,456789])
+#!    TESTING  ------------------------------------------------------------------
+SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123456789],"Rua Teste")
+time.sleep(1)
+SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[567890988],"Rua Teste2")
 
 
 # now = datetime.now()
@@ -84,6 +86,7 @@ def updateBusData(bus_id,timestamp,day,possible_lines):
 # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 # SendBusData(51,current_time,date.today().strftime("%d/%m/%Y"),[2])
+#!--------------------------------------------------------------------------
 
 
 def MapBoxTimeStampsPrediction(line,bus_id,stopAndTimestamp) :
@@ -91,7 +94,7 @@ def MapBoxTimeStampsPrediction(line,bus_id,stopAndTimestamp) :
     dic["Line"] = line
     dic["stopAndTimestamp"]= stopAndTimestamp
 
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
 
     db = myclient["MapBoxTimeStampsPrediction"] # acess the database
 
@@ -106,10 +109,13 @@ def MapBoxTimeStampsPrediction(line,bus_id,stopAndTimestamp) :
 # MapBoxTimeStampsPrediction(7,50,prediçao2)
 
 #drop pymongo
-def dropDatabases():
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/") # connect to mongo db
-    myclient.drop_database("Database_lines")
-    myclient.drop_database("Bus_lines")
-    myclient.drop_database("MapBoxTimeStampsPrediction")
+def dropDatabases(lines,bus_lines,mapBoxTimeStampsPrediction): # delete databases fucntions lines,bus_lines,mapBoxTimeStampsPrediction
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+    if lines:
+        myclient.drop_database("Database_lines")
+    if bus_lines:
+        myclient.drop_database("Bus_lines")
+    if mapBoxTimeStampsPrediction:
+        myclient.drop_database("MapBoxTimeStampsPrediction")
 
-#dropDatabases()
+#dropDatabases(True,True,True)
