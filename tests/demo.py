@@ -1,4 +1,4 @@
-import tests as ld
+import testsMain as ld
 import pprint
 import pymongo
 import json
