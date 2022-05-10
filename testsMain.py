@@ -30,7 +30,19 @@ bus_list = {}
 #bus_list[50]=[1,2,3,4,5,6,7,8,9,10,11,12,13]
 
 
-
+ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
+             2: (4873436915, 5403604506, 5398020251), #2
+             3: (4873436913, 1364747314, 4873436913), #3
+             4: (5401229911, 1364747314, 5401229910), #4
+             5: (5398378854, 1364747314, 5398378854), #5
+             6: (5395534183, 1364747314, 5395534182), #6
+             8: (5410260321, 5398378854, 5410260321), #8
+             10:(5410259987, 5398378854, 5410259986), #10
+             11:(1699701236, 0000000000, 4852045631), #11
+             12:(5410259987, 5405326919, 5410259986), #12
+             13:(5407623407, 4852088188, 1799461738)} #13
+            # Start     ,  Turn     ,   End
+            
 #!REAL DATA---------------------
 
 received_data=[] # receber data por mqtt
@@ -46,6 +58,9 @@ stops = json.load(file, encoding='utf-8')
 
 file=open('json/stops.json', mode="r")
 ends_of_line = json.load(file, encoding='utf-8')
+
+file=open('json/message.json', mode="r")
+realbusdata = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
 #!DUMMY DATA -----------------------------------
@@ -77,7 +92,7 @@ def ParagemUnica(paragem): # give stop and return if its the only stop in its li
 def checkStop(coordenadas): # check if a stop is nearby
     candidates=[]
     for stop in stops: #* WORKING
-        tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.1) # 0.2 km is the range to check
+        tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075) # 0.2 km is the range to check
         if tuple[0] : 
             candidates.append((stop, tuple[1])) if stop not in candidates else candidates 
         #return min of a tuple in the second argument and default value if there is no tuple
@@ -105,9 +120,12 @@ def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, 
                 
     bus_list[bus_id] = possible_lines # guarda as linhas possiveis
     return possible_lines# atualizacao das linhas possiveis
-    
+
+
+
 def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     temp={}
+    stops_array=[]
     #bus_id = 50
     if bus_id not in bus_list.keys():
         bus_list[bus_id] = [1,2,3,4,5,6,7,8,9,10,11,12,13]
@@ -120,9 +138,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         if(len(bus_list[bus_id])==1):
             temp= [1,2,3,4,5,6,7,8,9,10,11,12,13]
             print("a") 
-        print(time)
         #for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
-        print(bus_list)
         coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
         possible_lines={}
     
@@ -130,6 +146,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         if paragem == 0:   
             continue 
         else:
+            stops_array.append(paragem)
             if ParagemUnica(paragem):
                 bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
                 #print("unga bunga")
@@ -139,7 +156,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
                 possible_lines = Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
                                                                 # com as linhas possiveis novas                                                                
                 if(len(bus_list[bus_id])==1):
-                    print("linha unica")
+                    print("linha unica",bus_list[bus_id])
                 #     #TODO send linha á app
                 
         pymongo_functions.SendBusData(bus_id,list(bus[bus_id]['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),possible_lines,paragem)
@@ -156,6 +173,37 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     current_time = now.strftime("%H:%M:%S")
     pymongo_functions.SendBusData(bus_id,current_time,date.today().strftime("%d/%m/%Y"),bus_list[bus_id],paragem)
     
+    print("bus_list:",bus_list)
+    print(len(bus_list[bus_id]))
+    print("stops_array:",stops_array)
+    if(len(bus_list[bus_id])==1):
+        print("stops_array",stops_array)
+        print("line:",bus_list[bus_id][0])
+        print("bus_id: ",bus_id)
+        temp = stops_array
+        temp2 = bus_list[bus_id][0]
+        direction = checkDirection(temp2,temp)
+        time.sleep(1)
+        print("direction:",direction)
+        print("paragem:",paragem)
+        print("end 1 bus")
+        
+def checkDirection(line,stops_array_t):
+    print("linha:",line)
+    print("entrou")
+    direction = 2 # not detected
+    for paragem_temp in reversed(stops_array_t):
+        if paragem_temp == ends_turns[line][0]:
+            print("esta na IDa ")
+            direction = 0
+        if paragem_temp == ends_turns[line][1]:
+            print("esta na vinda")
+            direction = 1
+        if paragem_temp == ends_turns[line][2]:
+            direction = 0 # sus
+            print("mudou de linha")
+    print("direction")
+    return direction
 
 # def Line_detection():
 #     while(True):
@@ -188,12 +236,14 @@ def filterData(bus):
     return temp
     
 def Line_detection(bus):
-
+    bus=realbusdata #!REAL SHIT
     #TODO bus_filter = filterData(bus)
     Find_line_of_bus(bus,list(bus.keys())[0]) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
         
 #TODO ver a posiçao do autocarro mais recente ver a linha que deu e com isso
 # TODOandar para tras no array de fins meios e inicos de linha e detetar o sentido
+def checkDirection(stop,line,stops_array):
+    print("teste")
 #----------------------------------------------------------------------------------------------------------
 # python 3.6
 
@@ -435,9 +485,6 @@ def on_message(client, userdata, msg):
         l = list(y_copy[station].keys())
         for receiverIDkey in l:
             if (datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(y[station][receiverIDkey])).total_seconds()> 60:
-                print("del")
-                print(y)
-                print()
                 del y[station][receiverIDkey]
     
 
