@@ -1,6 +1,6 @@
 import json
 import datetime
-file=open('json/line13.json', mode="r")
+file=open('json/line1.json', mode="r")
 linha13 = json.load(file, encoding='utf-8')
 now = datetime.datetime.now()
 
