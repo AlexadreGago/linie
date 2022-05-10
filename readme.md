@@ -1,7 +1,9 @@
 ->docker build .
 
+#if docker not crated:
 ->`sudo docker run --name mongodb -d -p 27017:27017 mongo`
-
+#if docker created:
+->docker start "DOCKER CONTAINER ID"
 #Open another terminal
 ->docker exec -it "DOCKER CONTAINER ID" sh
 

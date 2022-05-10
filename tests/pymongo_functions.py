@@ -23,7 +23,10 @@ def SendLineData(line,timestamp,day,stops_ids,rua):
     
 
 def SendBusData(bus_id,timestamp,day,possible_lines,paragem):
-    
+    # now = datetime.now()
+# current_time = now.strftime("%H:%M:%S")
+# SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1,2,6])
+# time.sleep(1)
     dic={}
     dic["day"] = day
     dic["time"] = timestamp
@@ -64,9 +67,9 @@ def updateBusData(bus_id,timestamp,day,possible_lines):
     
     
 #!    TESTING  ------------------------------------------------------------------
-SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123456789],"Rua Teste")
-time.sleep(1)
-SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[567890988],"Rua Teste2")
+# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[123456789],"Rua Teste")
+# time.sleep(1)
+# SendLineData(1,datetime.now(),date.today().strftime("%d/%m/%Y"),[567890988],"Rua Teste2")
 
 
 # now = datetime.now()
