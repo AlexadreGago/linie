@@ -1,3 +1,3 @@
 from directions import *
 
-gps('10', 4874315940, 2)
+gps('10', 4874315940, 1)
