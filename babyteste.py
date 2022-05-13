@@ -1,3 +1,3 @@
-from directions import *
+import ETAmapbox
 
-gps('10', 4874315940, 1)
+ETAmapbox.gps('10', 4874315940, 1)

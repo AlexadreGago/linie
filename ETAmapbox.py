@@ -1,6 +1,5 @@
 import requests
 import json
-import testsMain as testsMain
 import urllib.parse
 import datetime
 
@@ -44,10 +43,13 @@ def gps(line, current, sentido):
     
     try:
         turn=stops_of_line_lists[line].index(ends_turns[int(line)][1])
+       # print("Turn: ",turn)
     except:
         turn=0
+        
     try:
-        index=stops_of_line_lists[line].index(current, 0) if sentido==0 else stops_of_line_lists[line].index(current,turn)
+        index=stops_of_line_lists[line].index(current, 0, turn) if sentido==0 else stops_of_line_lists[line].index(current,turn)
+        #print("Index: ",index)
     except:
         index=-1
     #end_index=stops_of_line_lists[line].index(ends_turns[int(line)][2])
@@ -57,21 +59,19 @@ def gps(line, current, sentido):
     count=0
 
     if index==-1:
-        print("Não encontrado")
-    else:
-        
+        print("Não encontrada a paragem")
+    else:        
         for stop in stops_of_line[line][index:]:
             count+=1
             if count>25:
                 break
             else:
-                print(stop['lon'],"," ,stop['lat'], ";")
+                #print(stop['lon'],"," ,stop['lat'], ";")
                 str+="{},{};".format(stop['lon'],stop['lat'])
 
-        print("-----------------------------------------------------")
-        print(str)
+      
         url="https://api.mapbox.com/directions/v5/mapbox/driving/{}?alternatives=false&continue_straight=false&geometries=geojson&overview=simplified&steps=false&access_token={}".format(str[:-1],token)
-        print(url)
+     
         response = requests.get(url)
         response=response.json()
 
