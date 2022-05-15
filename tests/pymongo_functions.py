@@ -22,7 +22,7 @@ def SendLineData(line,timestamp,day,stops_ids,rua):
     x = line_col.insert_one(dic) # insert data
     
 
-def SendBusData(bus_id,timestamp,day,possible_lines,paragem):
+def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     # now = datetime.now()
 # current_time = now.strftime("%H:%M:%S")
 # SendBusData(50,current_time,date.today().strftime("%d/%m/%Y"),[1,2,6])
@@ -32,16 +32,31 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem):
     dic["time"] = timestamp
     dic["bus_id"]= bus_id
     dic["paragem"] = paragem
-    dic["possible_lines"] = possible_lines
+    dic["line"] = possible_lines
+    dic["prediction"] = {}
+    dic["prediction"] = prediction
+    
+    
 
     myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
     bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
-    #bus_col.drop()
-    x = bus_col.insert_one(dic) # insert data
+    bus_col.drop()
+    bus_col.insert_one(dic) # insert data
+   
     
+def getBusData(bus_id):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+
+    db = myclient["Bus_lines"] # acess the database
+
+    bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
+    
+    return bus_col.find_one()
+
+
 def updateBusData(bus_id,timestamp,day,possible_lines): 
 
     myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017")

@@ -1,5 +1,7 @@
 import json
 import time
+
+from regex import B
 import distance as dist
 from tests import pymongo_functions
 import paho.mqtt.client as mqtt
@@ -19,26 +21,6 @@ import signal
 import sys
 
 bus_list = {}
-
-
-#TESTE---------------------
-#!working---------------------------------
-# temp = autocarro.copy()
-# temp['id'] = 1
-# temp['linhas'] = [1,2,3]
-# bus_list.append(temp)
-
-# temp = autocarro.copy()
-# temp['id'] = 2
-# temp['linhas'] = [3,4,5]
-# bus_list.append(temp)
-
-# print("Autocarro_lista: ", bus_list)
-#!----------------------------------------
-#bus_list[0]=[1,2,3,4,5,6,8,10,11,12,13]
-
-#bus_list[50]=[1,2,3,4,5,6,8,10,11,12,13]
-
 
 ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
              2: (4873436915, 5403604506, 5398020251), #2
@@ -106,50 +88,61 @@ def checkDirection(line,stops_array_t):
 def getLinesOfStop(stop_id):  #*WORKING
     if stop_id == 0:
         return [1,2,3,4,5,6,8,10,11,12,13]
-    for stop in lines_of_stop:
-        if str(stop_id) == stop:
-            return lines_of_stop[stop]['lines'] #!Index 1 is the name of the stop
-        
+    #for stop in lines_of_stop:
+    #    if str(stop_id) == stop:
+    #        return lines_of_stop[stop]['lines'] #!Index 1 is the name of the stop
+    try:
+        return lines_of_stop[str(stop_id)]['lines']
+    except:
+        return []   
 
 def ParagemUnica(paragem): # give stop and return if its the only stop in its line
     paragem= str(paragem) #* WORKING
-    for stop in lines_of_stop:
-        if paragem == stop and len(lines_of_stop[stop]['lines']) == 1:
-            return True
-    return False
+    # for stop in lines_of_stop:
+    #     if paragem == stop and len(lines_of_stop[stop]['lines']) == 1:
+    #         return True
+    # return False
+    try:
+        return True if len(lines_of_stop[paragem]['lines']) == 1 else False
+    except:
+        return False #! ?
 
 def checkStop(coordenadas): # check if a stop is nearby
-    candidates=[]
-    for stop in stops: #* WORKING
-        tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075) # 0.2 km is the range to check
-        if tuple[0] : 
-            candidates.append((stop, tuple[1])) if stop not in candidates else candidates 
-        #return min of a tuple in the second argument and default value if there is no tuple
-    paragem=min(candidates, key=lambda x: x[1])[0] if candidates else 0
-    print("paragem -- " ,stops[str(paragem)]['name'])
-    return  paragem #!ID 0 means no stop is nearby
+    # candidates=[]
+    # for stop in stops: #* WORKING
+    #     tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075) # 0.2 km is the range to check
+    #     if tuple[0] : 
+    #         candidates.append((stop, tuple[1])) if stop not in candidates else candidates 
+    #     #return min of a tuple in the second argument and default value if there is no tuple
+    # paragem=min(candidates, key=lambda x: x[1])[0] if candidates else 0
+    # print("paragem -- " ,stops[str(paragem)]['name'])
+   
+    # return  paragem #!ID 0 means no stop is nearby
+    return(min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
+            default=[0] , 
+            key=lambda x: x[1])[0] )
    
 
 def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, change the saved lines of 
                                 # that bus so that it coincides with the lines of the stop that that bus passed through 
                                 # ex : saved : [1,2,3,4]
                                 # new : [4,5]
-                                # change to : [4]
-                               
+                                # change to : [4]                          
     #!DISCLAIMER:
     #When i did this only I and God knew how it worked, now only God knows
-    print("paragem_analise",paragem)
-    stops_of_line = getLinesOfStop(paragem) # return the lines that pass through the stop
-    print(stops_of_line)
-    possible_lines = [] # array para guardar as linhas possiveis
-
-    for line in stops_of_line: 
-        for linha_guardada in bus_list[bus_id]: 
-            if line == linha_guardada : # ha aqui u problema com as linhas que nao existem no json 
-                possible_lines.append(line)
-                
+    #print("paragem_analise",paragem)
+    linesofstop = getLinesOfStop(paragem) # return the lines that pass through the stop
+    #print(linesofstop)
+    
+    # for line in stops_of_line: 
+    #     for linha_guardada in bus_list[bus_id]: 
+    #         if line == linha_guardada : # ha aqui u problema com as linhas que nao existem no json 
+    #             possible_lines.append(line)
+    
+    possible_lines = [line for line in linesofstop for linha_guardada in bus_list[bus_id] if line == linha_guardada]
     bus_list[bus_id] = possible_lines # guarda as linhas possiveis
     return possible_lines# atualizacao das linhas possiveis
+
 
 
 
@@ -157,18 +150,16 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     temp={}
     stops_array=[]
     confidence = {}
+    paragem=0
     if bus_id not in bus_list.keys():
         bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
     #check if id in dictionary
     for time in bus[bus_id]['data']:
-        print("time",time)
-        print("len:",len(bus_list[bus_id]))
+
         if(len(bus_list[bus_id])==0):
             bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
-            print("a")
         if(len(bus_list[bus_id])==1):
             temp= [1,2,3,4,5,6,8,10,11,12,13]
-            print("a") 
         #for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
         coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
         possible_lines={}
@@ -182,36 +173,46 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
             bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
             if bus_id not in confidence.keys():
                 confidence[bus_id] = {}
-            print(confidence[bus_id].keys())
             if bus_list[bus_id][0] not in confidence[bus_id].keys():
-                confidence[bus_id][bus_list[bus_id][0]] = 0
+                confidence[bus_id][bus_list[bus_id][0]] = {}
+                confidence[bus_id][bus_list[bus_id][0]]['value'] = 0
+                confidence[bus_id][bus_list[bus_id][0]]['stop'] = 0
                 
-            confidence[bus_id][bus_list[bus_id][0]] = confidence[bus_id][bus_list[bus_id][0]] + 1
+            confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1
+            confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
             #return
         else:
-            print(bus_id)
-            print(paragem)
+
             possible_lines = Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
                                                             # com as linhas possiveis novas                                                                
             if(len(bus_list[bus_id])==1) and checkStop(coord) != 0:
                 
                 if bus_id not in confidence.keys():
                     confidence[bus_id] = {}
-                print(confidence[bus_id].keys())
                 if bus_list[bus_id][0] not in confidence[bus_id].keys():
-                    confidence[bus_id][bus_list[bus_id][0]] = 0
+                    confidence[bus_id][bus_list[bus_id][0]] = {}
+                    confidence[bus_id][bus_list[bus_id][0]]['value'] = 0
+                    confidence[bus_id][bus_list[bus_id][0]]['stop'] = 0
                     
-                confidence[bus_id][bus_list[bus_id][0]] = confidence[bus_id][bus_list[bus_id][0]] + 1
-                print("linha unica",bus_list[bus_id])
-            #     #TODO send linha á app
+                confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1
+                confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
+                
+                #print("linha unica",bus_list[bus_id])
             
-        pymongo_functions.SendBusData(bus_id,list(bus[bus_id]['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),possible_lines,paragem)
+    #print(max(confidence[bus_id],key=confidence[bus_id].get))
+    
+    aux = confidence[bus_id]
+    lineAndStop = max(aux.items(), key=lambda x: x[1]['value']) if aux else {}
+    attribuited_line=(lineAndStop[0])
+    last_stop = lineAndStop[1]['stop']
+    
+    
+    if(len(bus_list[bus_id])==1):
+        
+        direction = checkDirection(attribuited_line,stops_array)
 
-    #else: # autocarro novo
+        prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction))
 
-     #       for coordenada in received_data.autocarro.coordenadas: # para cada paragem que esta no historico da OBU
-      #          paragem = checkStop(coordenada) # verificar se a paragem existe e devolve o ID dela 
-       #         bus[id_bus] = getLinesOfStop(paragem) # receber a(s) linha(s) da paragem 
     print("-----------------------------------------------------------------------------")
     print("bus_list:",bus_list)
     print(len(bus_list[bus_id]))
@@ -219,70 +220,38 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     print("line:",bus_list[bus_id][0])
     print("bus_id: ",bus_id)
     print("CONFIDENCE :",confidence)
+    print("confidence",confidence)
+    print("attrLine",attribuited_line)
+    print("LStop",last_stop)
+    print("DIRECTION",direction)
+    print("PREDICTION",prediction)
+    print("-------------------------------------------")
     print()
-    if(len(bus_list[bus_id])==1):
-
-        temp = stops_array
-        temp2 = bus_list[bus_id][0]
-        direction = checkDirection(temp2,temp)
-
-     
-        ETAmapbox.gps('6', int(paragem), 1)
-
-
-
-    # #TODO send linha á app /done
-    now = datetime.datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    pymongo_functions.SendBusData(bus_id,current_time,date.today().strftime("%d/%m/%Y"),bus_list[bus_id],paragem)
     
-
-        
-
-
-# def Line_detection():
-#     while(True):
-
-#         receiver = connect_mqtt()
-#         receiver.loop_start()
-#         publish(receiver)
-
-#         #when a new bus appears in real-time
-#         #get history of the last hour 
-
-#         for autocarro in received_data[autocarro]: # processar os dados autocarro a autocarro
-#             Find_line_of_bus(autocarro) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
-
-#         time.sleep(1)
+    pymongo_functions.SendBusData(bus_id,list(bus[bus_id]['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),attribuited_line,last_stop,prediction)
 
 
 
 def filterData(bus,bus_id):
     temp = {}
-    print("bus_id",bus_id)
     temp[bus_id] = {}
     temp[bus_id]['data'] = {}
     temp2={}
     temp2[bus_id] = {}
     temp2[bus_id]['data'] = {}
-    print("tesmp,temp:",temp)
     for time in reversed(bus[bus_id]['data'].keys()): 
         #time=bus[bus_id]['data'][item]
         coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
         paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
-        print("paragem",paragem)
-        print(line_ends)
+        
+        temp[bus_id]['data'][time] = bus[bus_id]['data'][time]
         
         if int(paragem) in line_ends:
-            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             temp2[bus_id]['data']={key:value for key,value in reversed(temp[bus_id]['data'].items())}
            
             return temp2
-         
-        temp[bus_id]['data'][time] = bus[bus_id]['data'][time]
     
-    temp2[bus_id]['data']={key:value for key,value in reversed(temp[bus_id]['data'].items())}    
-    return temp2       
+    return bus       
     
     
 def Line_detection(bus):
@@ -291,6 +260,7 @@ def Line_detection(bus):
     #pprint.pprint(bus)
     Find_line_of_bus(bus_filter,list(bus.keys())[0]) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
     #pprint.pprint(bus_filter)
+    
 Line_detection(None) #!>TIRAR QUANDO FOR PARA METER O SILVEIRA
 #TODO ver a posiçao do autocarro mais recente ver a linha que deu e com isso
 # TODOandar para tras no array de fins meios e inicos de linha e detetar o sentido

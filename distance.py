@@ -5,6 +5,6 @@ import geopy.distance
 def check(coords_1, coords_2, range):
     distance=geopy.distance.geodesic(coords_1, coords_2).km
     if distance < range:
-        return (True, distance)
+        return distance
     else:
-        return (False, distance)
+        return None

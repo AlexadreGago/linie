@@ -35,11 +35,11 @@ def gps(line, current, sentido):
     # line='11'
     # current=4874315940
     # sentido=1
-    str=""
+    string=""
 
 
     if sentido==2:
-        return "Sentido errado"
+        return {}
     
     try:
         turn=stops_of_line_lists[line].index(ends_turns[int(line)][1])
@@ -60,6 +60,7 @@ def gps(line, current, sentido):
 
     if index==-1:
         print("Não encontrada a paragem")
+        return {}
     else:        
         for stop in stops_of_line[line][index:]:
             count+=1
@@ -67,10 +68,10 @@ def gps(line, current, sentido):
                 break
             else:
                 #print(stop['lon'],"," ,stop['lat'], ";")
-                str+="{},{};".format(stop['lon'],stop['lat'])
+                string+="{},{};".format(stop['lon'],stop['lat'])
 
       
-        url="https://api.mapbox.com/directions/v5/mapbox/driving/{}?alternatives=false&continue_straight=false&geometries=geojson&overview=simplified&steps=false&access_token={}".format(str[:-1],token)
+        url="https://api.mapbox.com/directions/v5/mapbox/driving/{}?alternatives=false&continue_straight=false&geometries=geojson&overview=simplified&steps=false&access_token={}".format(string[:-1],token)
      
         response = requests.get(url)
         response=response.json()
@@ -81,7 +82,10 @@ def gps(line, current, sentido):
 
         now = datetime.datetime.now()
         index2=index
+        returns={}
         for waypoint in response['routes'][0]['legs']: #paragens na linha, +1 porque range exclyui o ultimo valor
                 index2+=1
                 now+= datetime.timedelta(0, waypoint['duration'])
+                returns[str(stops_of_line_lists[line][index2])]=str(now.strftime("%H:%M:%S"))
                 print(stops_of_line_lists[line][index2],now.strftime("%H:%M:%S"))
+        return returns
