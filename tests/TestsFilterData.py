@@ -1,11 +1,11 @@
 import json
 import time
-import distance as dist
+import src.distance as dist
 from tests import pymongo_functions
 import paho.mqtt.client as mqtt
 from datetime import datetime
 from datetime import date
-import ETAmapbox
+import src.ETAmapbox as ETAmapbox
 from tests import pymongo_functions
 
 #!IMPORTS SILVEIRA

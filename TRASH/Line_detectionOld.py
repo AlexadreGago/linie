@@ -1,6 +1,6 @@
 # Python dictionary is a built-in type that supports key-value pairs.
 import json
-import distance as dist
+import src.distance as dist
 import time
 
 import paho.mqtt.client as mqtt

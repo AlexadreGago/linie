@@ -4,16 +4,29 @@ import urllib.parse
 import datetime
 
 def gps(line, current, sentido):
-    file=open('json/stops per line.json', mode="r")
+    """This function returns the next stop of the line and the time to arrive
+
+    .. warning::
+        This function is not working yet.
+        
+    Args:
+        line (int): Line number
+        current (int): Current stop
+        sentido (int): Direction of the line
+
+    Returns:
+        dict: Dictionary with the next stop and the time to arrive
+    """
+    file=open('../json/stops per line.json', mode="r")
     stops_of_line = json.load(file, encoding='utf-8')
 
-    file=open('json/lines of stop.json', mode="r")
+    file=open('../json/lines of stop.json', mode="r")
     lines_of_stop = json.load(file, encoding='utf-8')
 
-    file=open('json/stops.json', mode="r")
+    file=open('../json/stops.json', mode="r")
     stops = json.load(file, encoding='utf-8')
 
-    file=open('json/stops of line lists.json', mode="r")
+    file=open('../json/stops of line lists.json', mode="r")
     stops_of_line_lists=json.load(file, encoding='utf-8')
 
     ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
@@ -37,20 +50,22 @@ def gps(line, current, sentido):
     # sentido=1
     string=""
 
-
-    if sentido==2:
-        return {}
-    
     try:
-        turn=stops_of_line_lists[line].index(ends_turns[int(line)][1])
+        if sentido==2:
+            # print("oya",stops_of_line_lists[line].count(current))
+            # print("oya", current)
+            # print("oya", line)
+            if stops_of_line_lists[line].count(current) == 1: #if stop only appears once get index
+                
+                index=stops_of_line_lists[line].index(current) 
+            else:
+                return {}
+                       
        # print("Turn: ",turn)
+        else: 
+           index=stops_of_line_lists[line].index(current, 0, turn) if sentido==0 else stops_of_line_lists[line].index(current,turn)
     except:
         turn=0
-        
-    try:
-        index=stops_of_line_lists[line].index(current, 0, turn) if sentido==0 else stops_of_line_lists[line].index(current,turn)
-        #print("Index: ",index)
-    except:
         index=-1
     #end_index=stops_of_line_lists[line].index(ends_turns[int(line)][2])
 

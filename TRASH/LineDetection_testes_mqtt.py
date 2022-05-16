@@ -1,6 +1,6 @@
 import json
 import time
-import distance as dist
+import src.distance as dist
 
 import paho.mqtt.client as mqtt
 

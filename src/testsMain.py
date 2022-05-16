@@ -3,12 +3,12 @@ import time
 
 from regex import B
 import distance as dist
-from tests import pymongo_functions
+import pymongo_functions
 import paho.mqtt.client as mqtt
 from datetime import datetime
 from datetime import date
-import ETAmapbox
-from tests import pymongo_functions
+import ETAmapbox as ETAmapbox
+import logging
 
 #!IMPORTS SILVEIRA
 
@@ -41,19 +41,19 @@ line_ends= list(map (lambda x:(x[2]),ends_turns.values()))
 
 received_data=[] # receber data por mqtt
 
-file=open('json/stops per line.json', mode="r")
+file=open('../json/stops per line.json', mode="r")
 stops_of_line = json.load(file, encoding='utf-8')
 
-file=open('json/lines of stop.json', mode="r")
+file=open('../json/lines of stop.json', mode="r")
 lines_of_stop = json.load(file, encoding='utf-8')
 
-file=open('json/stops.json', mode="r")
+file=open('../json/stops.json', mode="r")
 stops = json.load(file, encoding='utf-8')
 
-file=open('json/stops.json', mode="r")
+file=open('../json/stops.json', mode="r")
 ends_of_line = json.load(file, encoding='utf-8')
 
-file=open('json/message.json', mode="r")
+file=open('../json/message.json', mode="r")
 realbusdata = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
@@ -86,6 +86,14 @@ def checkDirection(line,stops_array_t):
     return direction
 
 def getLinesOfStop(stop_id):  #*WORKING
+    """
+
+    Args:
+        stop_id (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     if stop_id == 0:
         return [1,2,3,4,5,6,8,10,11,12,13]
     #for stop in lines_of_stop:
@@ -103,7 +111,7 @@ def ParagemUnica(paragem): # give stop and return if its the only stop in its li
     #         return True
     # return False
     try:
-        return True if len(lines_of_stop[paragem]['lines']) == 1 else False
+        return len(lines_of_stop[paragem]['lines']) == 1
     except:
         return False #! ?
 
@@ -254,14 +262,13 @@ def filterData(bus,bus_id):
     return bus       
     
     
-def Line_detection(bus):
-    bus=realbusdata #!REAL SHIT
+def Line_detection(bus={}):
+    bus=realbusdata
     bus_filter = filterData(bus,list(bus.keys())[0])
     #pprint.pprint(bus)
     Find_line_of_bus(bus_filter,list(bus.keys())[0]) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
     #pprint.pprint(bus_filter)
-    
-Line_detection(None) #!>TIRAR QUANDO FOR PARA METER O SILVEIRA
+Line_detection(None)
 #TODO ver a posiçao do autocarro mais recente ver a linha que deu e com isso
 # TODOandar para tras no array de fins meios e inicos de linha e detetar o sentido
 
