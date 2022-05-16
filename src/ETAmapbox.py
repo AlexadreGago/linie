@@ -4,18 +4,32 @@ import urllib.parse
 import datetime
 
 def gps(line, current, sentido):
-    """This function returns the next stop of the line and the time to arrive
+    """ 
+        | This function returns the next 24 stops of the line and the time to arrive at each one
+        | Depending on **sentido** it will search for **current** stop:
+        * 0 : Search from the beginning until the turning point.
+        * 1 : Search from the turning point until the end.
+        | This needs to be done as the line can contain the same stop more than 1 time.
+        | If **sentido** = 2 is given (direction not found) the function will count
+        | the occurences of **current** in **line** because if **current** appears only once
+        | it can still calculate the next 24 stops without "knowing" the direction.
 
+    
+    .. note::
+        * 24 because 25 is the limit of waypoints by MapBox
+        
     .. warning::
-        This function is not working yet.
+        * A strange prediction can be made in some cases as the stops dataset isn't complete
+        * A strange response can occur if the 100.000 MapBox monthly requests are exceeded
         
     Args:
         line (int): Line number
         current (int): Current stop
         sentido (int): Direction of the line
-
-    Returns:
-        dict: Dictionary with the next stop and the time to arrive
+    
+    :return: Dictionary with the next 24 stops and the Estimated Time of Arrival
+    :rtype: dict
+        
     """
     file=open('../json/stops per line.json', mode="r")
     stops_of_line = json.load(file, encoding='utf-8')
@@ -37,24 +51,19 @@ def gps(line, current, sentido):
                 6: (5395534183, 1364747314, 5395534182), #6
                 8: (5410260321, 5398378854, 5410260321), #8
                 10:(5410259987, 5398378854, 5410259986), #10
-                11:(1699701236, 0000000000, 4852045631), #11
+                11:(1699701236, 0000000000, 4852045631), #11 #!0 in turning pont means the line doesnt have a turning point it is circular
                 12:(5410259987, 5405326919, 5410259986), #12
                 13:(5407623407, 4852088188, 1799461738)} #13
                 # Start     ,  Turn     ,   End
                 
     # line_ends= map (lambda x:(x[2]),ends_turns)
 
-
-    # line='11'
-    # current=4874315940
-    # sentido=1
     string=""
 
     try:
+        turn=stops_of_line_lists[line].index(ends_turns[int(line)][1])
         if sentido==2:
-            # print("oya",stops_of_line_lists[line].count(current))
-            # print("oya", current)
-            # print("oya", line)
+
             if stops_of_line_lists[line].count(current) == 1: #if stop only appears once get index
                 
                 index=stops_of_line_lists[line].index(current) 
@@ -62,25 +71,28 @@ def gps(line, current, sentido):
                 return {}
                        
        # print("Turn: ",turn)
-        else: 
-           index=stops_of_line_lists[line].index(current, 0, turn) if sentido==0 else stops_of_line_lists[line].index(current,turn)
+        else:
+            if turn !=0 :
+                index=stops_of_line_lists[line].index(current, 0, turn) if sentido==0 else stops_of_line_lists[line].index(current,turn)
+            else:
+                index=stops_of_line_lists[line].index(current)
     except:
         turn=0
         index=-1
-    #end_index=stops_of_line_lists[line].index(ends_turns[int(line)][2])
+    
 
     token = "pk.eyJ1IjoiaXRhdiIsImEiOiJjbDIwaWRwZ3Ywd3E3M2JscDB1ZjV0bzh2In0.JNCksFOjVnpes6dbdYR24w"
 
     count=0
 
     if index==-1:
-        print("Não encontrada a paragem")
+        print("Stop not found")
         return {}
     else:        
         for stop in stops_of_line[line][index:]:
             count+=1
             if count>25:
-                break
+                break #pardon the break
             else:
                 #print(stop['lon'],"," ,stop['lat'], ";")
                 string+="{},{};".format(stop['lon'],stop['lat'])
