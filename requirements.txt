@@ -2,6 +2,11 @@ paho-mqtt
 geopy
 python-dateutil
 pymongo
-pip
-
+regex
+requests
 datetime
+regex 
+distance
+
+requests
+

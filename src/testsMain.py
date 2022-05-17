@@ -8,7 +8,7 @@ import paho.mqtt.client as mqtt
 from datetime import datetime
 from datetime import date
 import ETAmapbox as ETAmapbox
-import logging
+
 
 #!IMPORTS SILVEIRA
 
@@ -71,6 +71,9 @@ realbusdata = json.load(file, encoding='utf-8')
 
 file=open('../json/message2.json', mode="r")
 realbusdata2 = json.load(file, encoding='utf-8')
+
+file=open('../json/message3.json', mode="r")
+realbusdata3 = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
 #!DUMMY DATA -----------------------------------
@@ -193,9 +196,9 @@ def checkStop(coordenadas): # check if a stop is nearby
    
     # return  paragem #!ID 0 means no stop is nearby
    
-    # print("paragem --", min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
-    #         default=[0] , 
-    #         key=lambda x: x[1])[0] )
+    #print("paragem --", min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
+     #       default=[0] , 
+      #      key=lambda x: x[1])[0] )
     return(min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
             default=[0] , 
             key=lambda x: x[1])[0] )
@@ -264,14 +267,14 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
         possible_lines={}
         
-        
-        paragem = checkStop(coord) if checkStop(coord) != 0 else paragem  # verificar se a paragem existe e devolve o ID dela 
+        realparagem = checkStop(coord)
+        paragem = realparagem if realparagem != 0 else paragem  # verificar se a paragem existe e devolve o ID dela 
        
         stops_array.append(paragem)
         # print(ParagemUnica(paragem))
         # print("checkstop",checkStop(coord))
         # print("paragem",paragem)
-        if ParagemUnica(checkStop(coord)):
+        if ParagemUnica(realparagem):
             bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
             if bus_id not in confidence.keys():
                 confidence[bus_id] = {}
@@ -282,45 +285,45 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
             
             
 
-            
+            #! LINE 5 IS DIFFERENT IS NOT WORKING WITH CONFIDENCE
             confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1 if paragem!= confidence[bus_id][bus_list[bus_id][0]]['stop'] else confidence[bus_id][bus_list[bus_id][0]]['value']
             confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
             #return
         else:
 
             Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
-                                                            # com as linhas possiveis novas                                                                
-            if(len(bus_list[bus_id])==1) and checkStop(coord) != 0:
-                
-                if bus_id not in confidence.keys():
-                    confidence[bus_id] = {}
-                if bus_list[bus_id][0] not in confidence[bus_id].keys():
-                    confidence[bus_id][bus_list[bus_id][0]] = {}
-                    confidence[bus_id][bus_list[bus_id][0]]['value'] = 0
-                    confidence[bus_id][bus_list[bus_id][0]]['stop'] = 0
-             
-               
-                 
-             
-                confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1 if paragem != confidence[bus_id][bus_list[bus_id][0]]['stop'] else confidence[bus_id][bus_list[bus_id][0]]['value']
-                confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
+            
+            if realparagem != 0:# com as linhas possiveis novas                                                                
+                for i in range(len(bus_list[bus_id])):
+
+                    if bus_id not in confidence.keys():
+                        confidence[bus_id] = {}
+                    if bus_list[bus_id][i] not in confidence[bus_id].keys():
+                        confidence[bus_id][bus_list[bus_id][i]] = {}
+                        confidence[bus_id][bus_list[bus_id][i]]['value'] = 0
+                        confidence[bus_id][bus_list[bus_id][i]]['stop'] = 0
+                    
+                    #! LINE 5 IS DIFFERENT IS NOT WORKING WITH CONFIDENCE
+                    confidence[bus_id][bus_list[bus_id][i]]['value'] = confidence[bus_id][bus_list[bus_id][i]]['value'] + 1 if paragem != confidence[bus_id][bus_list[bus_id][i]]['stop'] else confidence[bus_id][bus_list[bus_id][i]]['value']
+                    confidence[bus_id][bus_list[bus_id][i]]['stop'] = paragem
                 
                 #print("linha unica",bus_list[bus_id])
             
     #print(max(confidence[bus_id],key=confidence[bus_id].get))
-    
-    aux = confidence[bus_id]
+    try:
+        aux = confidence[bus_id]
+    except:
+        return
     lineAndStop = max(aux.items(), key=lambda x: x[1]['value']) if aux else {}
     attribuited_line=(lineAndStop[0])
     last_stop = lineAndStop[1]['stop']
     
     
-    if(len(bus_list[bus_id])==1):
-        
-        direction = checkDirection(attribuited_line,stops_array)
+    
+    direction = checkDirection(attribuited_line,stops_array)
 
-        prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction))
-
+    prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction))
+  
     print("-----------------------------------------------------------------------------")
     print("bus_list:",bus_list)
     print(len(bus_list[bus_id]))

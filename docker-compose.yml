@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mongo:
+    build: 
+      context: .
+      dockerfile: Dockerfile.mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data/:/data/db
+    restart: always
+
+  app-lines:
+    build: 
+      context: .
+      dockerfile: Dockerfile.lines
+    restart: always
+
+    # BUILD SPECIFIC DOCKER FILE
+    # build:  ./Dockerfile.lines  # BUILD SPECIFIC DOCKER FILE  

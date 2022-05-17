@@ -114,5 +114,4 @@ def gps(line, current, sentido):
                 index2+=1
                 now+= datetime.timedelta(0, waypoint['duration'])
                 returns[str(stops_of_line_lists[line][index2])]=str(now.strftime("%H:%M:%S"))
-                print(stops_of_line_lists[line][index2],now.strftime("%H:%M:%S"))
         return returns
