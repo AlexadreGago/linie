@@ -59,7 +59,7 @@ def gps(line, current, sentido):
     # line_ends= map (lambda x:(x[2]),ends_turns)
 
     string=""
-
+    print("count:", stops_of_line_lists[line].count(current))
     try:
         turn=stops_of_line_lists[line].index(ends_turns[int(line)][1])
         if sentido==2:

@@ -26,6 +26,19 @@ ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
              2: (4873436915, 5403604506, 5398020251), #2
              3: (4873436913, 1364747314, 4873436913), #3
              4: (5401229911, 1364747314, 5401229910), #4
+             5: (5398378854, 1364747314, -1), #5 # this line end had to be eliminated as it would cause conflicts
+             6: (5395534183, 1364747314, 5395534182), #6
+             8: (5410260321, 5398378854, 5410260321), #8
+             10:(5410259987, 5398378854, 5410259986), #10
+             11:(1699701236, -1, -1), #11 #this line end had to be eliminated as it would cause conflicts
+             12:(5410259987, 5405326919, 5410259986), #12
+             13:(5407623407, 4852088188, 1799461738)} #13
+            # Start     ,  Turn     ,   End
+            
+ends_turns2= {1: (4873436913, 1364747314, 4873436913), #1
+             2: (4873436915, 5403604506, 5398020251), #2
+             3: (4873436913, 1364747314, 4873436913), #3
+             4: (5401229911, 1364747314, 5401229910), #4
              5: (5398378854, 1364747314, 5398378854), #5
              6: (5395534183, 1364747314, 5395534182), #6
              8: (5410260321, 5398378854, 5410260321), #8
@@ -55,6 +68,9 @@ ends_of_line = json.load(file, encoding='utf-8')
 
 file=open('../json/message.json', mode="r")
 realbusdata = json.load(file, encoding='utf-8')
+
+file=open('../json/message2.json', mode="r")
+realbusdata2 = json.load(file, encoding='utf-8')
 #!--------------------------------------
 
 #!DUMMY DATA -----------------------------------
@@ -70,29 +86,52 @@ realbusdata = json.load(file, encoding='utf-8')
 #!----------------------------------------------
 
 def checkDirection(line,stops_array_t):
-
+    """ 
+    | This function returns the direction of the bus.
+    | 0- means the bus is going to the end of the line
+    | 1- means the bus is going to the start of the line
+    | 2- means that the direction was not found
+        
+        
+    .. note::
+        * This is very primitive, can be improved.
+        
+    Args:
+        line (int): detected line by the algorithm 
+        stops_array_t (list): list of stops detected by the algorithm in the bus course
+    
+    :return: direction of the bus 0/1/2
+    :rtype: int
+        
+    """
+    
     direction = 2 # not detected
     for paragem_temp in reversed(stops_array_t):
-        if paragem_temp == ends_turns[line][0]:
-            print("esta na IDa ")
-            direction = 0
-        if paragem_temp == ends_turns[line][1]:
-            print("esta na vinda")
-            direction = 1
-        if paragem_temp == ends_turns[line][2]:
-            direction = 0 # sus
-            print("mudou de linha")
+        paragem_temp=int(paragem_temp)
+        
+        if paragem_temp == ends_turns2[line][0]:
+       
+            return 0
+        if paragem_temp == ends_turns2[line][1]:
+           
+            return 1
+        if paragem_temp == ends_turns2[line][2]:
+            
+            return  0 # sus
+    
 
     return direction
 
 def getLinesOfStop(stop_id):  #*WORKING
     """
-
+    | This function returns the lines associated to a stop in the lines_of_stop.json
+    
     Args:
-        stop_id (_type_): _description_
-
-    Returns:
-        _type_: _description_
+        stop_id (int): id of the stop
+    
+    :return: array of lines associated to the stop
+    :rtype: list
+        
     """
     if stop_id == 0:
         return [1,2,3,4,5,6,8,10,11,12,13]
@@ -104,18 +143,45 @@ def getLinesOfStop(stop_id):  #*WORKING
     except:
         return []   
 
-def ParagemUnica(paragem): # give stop and return if its the only stop in its line
+def ParagemUnica(paragem): 
+    """
+    | This function detects if a stop has only one line associated with it.
+    
+    Args:
+        paragem (int): id of the stop
+        
+    :return: True/False
+    :rtype: bool
+    
+    """
     paragem= str(paragem) #* WORKING
     # for stop in lines_of_stop:
     #     if paragem == stop and len(lines_of_stop[stop]['lines']) == 1:
     #         return True
     # return False
+   
     try:
-        return len(lines_of_stop[paragem]['lines']) == 1
+        return len(lines_of_stop[paragem]['lines']) == 1 if paragem != "0" else False
     except:
         return False #! ?
 
 def checkStop(coordenadas): # check if a stop is nearby
+    """
+        | This function checks if a stop is nearby
+        
+        Args:
+            coordenadas (list): coordinates of the bus
+            
+        :return: A tuple with the id of the stop and the distance to it
+        :rtype: tuple
+        
+        .. note::
+            The distance to check is set to 0.075km (75m)
+            This can be changed in 
+            | ``y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075)``
+            Just change the 0.075 to the desired distance
+            
+    """
     # candidates=[]
     # for stop in stops: #* WORKING
     #     tuple = dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075) # 0.2 km is the range to check
@@ -126,16 +192,31 @@ def checkStop(coordenadas): # check if a stop is nearby
     # print("paragem -- " ,stops[str(paragem)]['name'])
    
     # return  paragem #!ID 0 means no stop is nearby
+   
+    # print("paragem --", min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
+    #         default=[0] , 
+    #         key=lambda x: x[1])[0] )
     return(min( [ (stop,y) for stop in stops if (y := dist.check(coordenadas,(stops[stop]['lat'], stops[stop]['lon']), 0.075))], 
             default=[0] , 
             key=lambda x: x[1])[0] )
    
 
-def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, change the saved lines of 
-                                # that bus so that it coincides with the lines of the stop that that bus passed through 
-                                # ex : saved : [1,2,3,4]
-                                # new : [4,5]
-                                # change to : [4]                          
+def Analise_stop(bus_id,paragem): 
+                     
+    """
+    
+    | This function makes the intersection of the possible lines detected by the algorithm previosly
+    | with the lines of the stop that the bus passed through.
+    | It also updates the global dictionary with the newly calculated possible lines.
+    
+    .. note::
+        * This uses the global dictionaty bus_list to get the stored lines previously detected
+
+    Args:
+        bus_id (int): id of the bus
+        paragem (int): id of the stop
+        
+    """
     #!DISCLAIMER:
     #When i did this only I and God knew how it worked, now only God knows
     #print("paragem_analise",paragem)
@@ -149,13 +230,24 @@ def Analise_stop(bus_id,paragem): # from the id of the bus and the stop number, 
     
     possible_lines = [line for line in linesofstop for linha_guardada in bus_list[bus_id] if line == linha_guardada]
     bus_list[bus_id] = possible_lines # guarda as linhas possiveis
-    return possible_lines# atualizacao das linhas possiveis
-
-
 
 
 def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
-    temp={}
+    
+    """
+    | This function finds the line(s) possible of a bus by its ID given different travelled positions.
+    | It is a confidence system so that it always gives out a line (correct or not)
+    | It updates the database the highest confidence line detected.
+    
+    .. note::
+        * This is the heart of the line detection algorithm and it uses the global dictionary bus_list
+        * It calls many other functions to do the job.
+
+    Args:
+        bus (dict): dictionary with the bus data
+        bus_id (int): id of the stop
+        
+    """
     stops_array=[]
     confidence = {}
     paragem=0
@@ -168,7 +260,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
             bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
         if(len(bus_list[bus_id])==1):
             temp= [1,2,3,4,5,6,8,10,11,12,13]
-        #for coord in bus['data'][time]: # para cada paragem que esta no historico da OBU
+        #for coord in bus[bus_id]['data'][time]: # para cada paragem que esta no historico da OBU
         coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
         possible_lines={}
         
@@ -176,8 +268,10 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         paragem = checkStop(coord) if checkStop(coord) != 0 else paragem  # verificar se a paragem existe e devolve o ID dela 
        
         stops_array.append(paragem)
-
-        if ParagemUnica(paragem):
+        # print(ParagemUnica(paragem))
+        # print("checkstop",checkStop(coord))
+        # print("paragem",paragem)
+        if ParagemUnica(checkStop(coord)):
             bus_list[bus_id] = getLinesOfStop(paragem) # receber a linha da paragem (vai se so uma)
             if bus_id not in confidence.keys():
                 confidence[bus_id] = {}
@@ -185,13 +279,16 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
                 confidence[bus_id][bus_list[bus_id][0]] = {}
                 confidence[bus_id][bus_list[bus_id][0]]['value'] = 0
                 confidence[bus_id][bus_list[bus_id][0]]['stop'] = 0
-                
-            confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1
+            
+            
+
+            
+            confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1 if paragem!= confidence[bus_id][bus_list[bus_id][0]]['stop'] else confidence[bus_id][bus_list[bus_id][0]]['value']
             confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
             #return
         else:
 
-            possible_lines = Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
+            Analise_stop(bus_id,paragem) # compar com as linas possiveis obtidas anteriormente 
                                                             # com as linhas possiveis novas                                                                
             if(len(bus_list[bus_id])==1) and checkStop(coord) != 0:
                 
@@ -201,8 +298,11 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
                     confidence[bus_id][bus_list[bus_id][0]] = {}
                     confidence[bus_id][bus_list[bus_id][0]]['value'] = 0
                     confidence[bus_id][bus_list[bus_id][0]]['stop'] = 0
-                    
-                confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1
+             
+               
+                 
+             
+                confidence[bus_id][bus_list[bus_id][0]]['value'] = confidence[bus_id][bus_list[bus_id][0]]['value'] + 1 if paragem != confidence[bus_id][bus_list[bus_id][0]]['stop'] else confidence[bus_id][bus_list[bus_id][0]]['value']
                 confidence[bus_id][bus_list[bus_id][0]]['stop'] = paragem
                 
                 #print("linha unica",bus_list[bus_id])
@@ -228,7 +328,6 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     print("line:",bus_list[bus_id][0])
     print("bus_id: ",bus_id)
     print("CONFIDENCE :",confidence)
-    print("confidence",confidence)
     print("attrLine",attribuited_line)
     print("LStop",last_stop)
     print("DIRECTION",direction)
@@ -237,45 +336,65 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     print()
     
     pymongo_functions.SendBusData(bus_id,list(bus[bus_id]['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),attribuited_line,last_stop,prediction)
-
+    pymongo_functions.MapBoxTimeStampsPrediction(attribuited_line,bus_id,last_stop,prediction)
+    
 
 
 def filterData(bus,bus_id):
+    
+    """
+    | This function filters the received data from the OBU history through Orion? and returns a dictionary with the filtered data.
+
+    Args:
+        bus (dict): dictionary with the bus data
+        bus_id (int): id of the stop
+        
+    :return: Dictionary with the filtered data
+    :rtype: dict
+    """
+    
     temp = {}
     temp[bus_id] = {}
     temp[bus_id]['data'] = {}
     temp2={}
     temp2[bus_id] = {}
     temp2[bus_id]['data'] = {}
-    for time in reversed(bus[bus_id]['data'].keys()): 
+
+    for time in reversed(bus['data'].keys()): 
+        
         #time=bus[bus_id]['data'][item]
-        coord =(bus[bus_id]['data'][time]['coords']['lat'], bus[bus_id]['data'][time]['coords']['long'])
+        coord =(bus['data'][time]['coords']['lat'], bus['data'][time]['coords']['long'])
         paragem = checkStop(coord) # verificar se a paragem existe e devolve o ID dela 
         
-        temp[bus_id]['data'][time] = bus[bus_id]['data'][time]
+        temp[bus_id]['data'][time] = bus['data'][time]
         
         if int(paragem) in line_ends:
             temp2[bus_id]['data']={key:value for key,value in reversed(temp[bus_id]['data'].items())}
            
             return temp2
     
-    return bus       
+    return {bus_id:bus}       
     
     
-def Line_detection(bus={}):
-    bus=realbusdata
-    bus_filter = filterData(bus,list(bus.keys())[0])
-    #pprint.pprint(bus)
-    Find_line_of_bus(bus_filter,list(bus.keys())[0]) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
-    #pprint.pprint(bus_filter)
-Line_detection(None)
-#TODO ver a posiçao do autocarro mais recente ver a linha que deu e com isso
-# TODOandar para tras no array de fins meios e inicos de linha e detetar o sentido
+def Line_detection(buses={}):
+    """
+    | Main function of the program. It receives the data from the OBU history and filters it through the filterData function.
 
-# #----------------------------------------------------------------------------------------------------------
-# # python 3.6
+    """
+    buses=realbusdata #! TESTES SEM SERVER
+  
+    for bus in buses:   
+        bus_filter = filterData(buses[bus],bus)   
+       
+        Find_line_of_bus(bus_filter,bus) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
+        
+Line_detection(None) #!ISTO E PARA TESTES SEM SERVER
 
-#!IMPORTS METIDOS NO INICIO
+
+#----------------------------------------------------------------------------------------------------------
+# python 3.6
+
+
 
 
 # #! ------------------------- ORION HISTORY -------------------------
@@ -405,11 +524,11 @@ Line_detection(None)
 
 #     # * get the start and end time
 #     # * when this function is called, the end time is the current time
-#     dStart = datetime.datetime(2022, 5, 9, 18, 0)
-#     dEnd = datetime.datetime(2022, 5, 9, 19, 0)
+#     #dStart = datetime.datetime(2022, 5, 9, 18, 0)
+#     #dEnd = datetime.datetime(2022, 5, 9, 19, 0)
     
-#     #dEnd = datetime.datetime.now() 
-#     #dStart = dEnd - datetime.timedelta(minutes=60)
+#     dEnd = datetime.datetime.now() 
+#     dStart = dEnd - datetime.timedelta(minutes=60)
 
 #     # * convert the start and end time to milliseconds
 #     start_time = date_to_millisecconds(dStart)
@@ -484,15 +603,16 @@ Line_detection(None)
 #             else: # é a primeira vez que o autocarro passa no poste
 #                 IAjson=make_IA_request(int(j_son["stationID"]))
 #                 print("IAjson: ",IAjson)
-#                 Line_detection(IAjson)
-#                 y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
+#                 if IAjson != {}:
+#                   Line_detection(IAjson)
+#                   y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
 #         else: # é a primeira vez que o autocarro entra
 #             IAjson=make_IA_request(int(j_son["stationID"]))
-#             print("IAjson: ",IAjson)
-#             Line_detection(IAjson)
-#             y[j_son["stationID"]] = {}
-#             y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
-#             print(y)
+#             if IAjson != {}:
+#                 Line_detection(IAjson)
+#                 y[j_son["stationID"]] = {}
+#                 y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
+#                 print(y)
     
 #     y_copy = {**y}
 #     stationList = list(y.keys())
@@ -545,6 +665,9 @@ Line_detection(None)
 #     except KeyboardInterrupt:
 #         print("\r  ")
 #         print("Exiting Program...")
+
+
+
 # #----------------------------------------------------------------------------------------------------------
 
 # #if __name__ == "__Line_detection__":
