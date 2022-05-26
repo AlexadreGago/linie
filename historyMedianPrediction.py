@@ -1,8 +1,8 @@
 #TODO EVERYTHING
 
 def getMedian(line,currentStop,timeStamp) :
-    #Vamos ver qual a próxima paragem dessa linha depois da currentStop e vemos a hora que foi detetado um autocarro
-    #O tempo mais próximo
+    #Pegar na paragem atual ver a proxima paragen e consoante o numero da linha ir buscar o tempo mais proximo do atual
+    # um dia antes, dois dias antes e tres dias antes, fazer a media .
     
     
     return 0

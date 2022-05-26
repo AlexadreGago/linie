@@ -55,7 +55,7 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     
     
 
-    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
@@ -80,7 +80,7 @@ def getBusData(bus_id):
     :rtype: dict
         
     """
-    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
@@ -166,7 +166,7 @@ def MapBoxTimeStampsPrediction(line,bus_id,stop,timeStamp) :
     dic["timeStamps"] = timeStamp
     
 
-    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["MapBoxTimeStampsPrediction"] # acess the database
 
@@ -197,7 +197,7 @@ def dropDatabases(bus_lines,mapBoxTimeStampsPrediction): # delete databases fucn
         
     """
     print(type(bus_lines))
-    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
+    myclient = pymongo.MongoClient("mongo") # connect to mongo db
     if bus_lines:
         myclient.drop_database("Bus_lines")
     if mapBoxTimeStampsPrediction:

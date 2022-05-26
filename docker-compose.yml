@@ -1,11 +1,12 @@
 version: '3'
 services:
   mongo:
-    build: 
-      context: .
-      dockerfile: Dockerfile.mongo
+    #build: 
+   #   context: .
+    #  dockerfile: Dockerfile.mongo
     ports:
       - "27017:27017"
+    image: mongo
     volumes:
       - ./mongo-data/:/data/db
     restart: always
