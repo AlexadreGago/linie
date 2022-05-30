@@ -5,6 +5,8 @@ from datetime import date
 import time
 from datetime import datetime
 
+import json
+import requests
 # def SendLineData(line,timestamp,day,stops_ids,rua):
 
 #     dic={}
@@ -53,7 +55,31 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     dic["prediction"] = {}
     dic["prediction"] = prediction
     
-    
+    print(dic)
+    print("work")
+    payload = json.dumps({
+    "id": "urn:ngsi-ld:Bus:peci_bus:"+bus_id,
+    "type": "Bus",
+    "dateSent": {
+        "type": "DateTime",
+        "value": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    },
+    "busData":{
+        "type": "dict",
+        "value": dic
+    }
+    })
+
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2aWNlIjoicGVjaV9idXMiLCJpYXQiOjE2NDk3MTIyMjJ9.MnKA5nJ8XOEtSWbW9lcWLnhdejcWGQMz07WxTsH0Pk4',
+    'Fiware-service': 'peci_bus'
+    }
+
+    r = requests.post('https://orion.atcll-data.nap.av.it.pt/v2/entities?options=upsert' ,data=payload, headers=headers)
+
+    print(r.status_code==204)
+    print("worked")
 
     myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
@@ -62,6 +88,7 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
     bus_col.drop()
     bus_col.insert_one(dic) # insert data
+
    
     
 def getBusData(bus_id):

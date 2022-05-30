@@ -19,6 +19,7 @@ mongodb://127.0.0.1:27017
 #on bindIp add the gateway ip example:     bindIp: 172.17.0.1
 
 #to remove docker containers:
-#docker compose down
-#docker rm $(docker ps -aq)
-#docker rmi $(docker images -q)            
+#docker-compose down
+#docker rm -f $(docker ps -a -q)
+#docker volume rm $(docker volume ls -q)
+#docker rmi $(docker images -q)           
