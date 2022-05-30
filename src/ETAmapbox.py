@@ -3,7 +3,7 @@ import json
 import urllib.parse
 import datetime
 
-def gps(line, current, sentido):
+def gps(line, current, sentido, current_time):
     """ 
         | This function returns the next 24 stops of the line and the time to arrive at each one
         | Depending on **sentido** it will search for **current** stop:
@@ -106,8 +106,11 @@ def gps(line, current, sentido):
         # with open('json/line1.json', 'w') as outfile:
         #     json.dump(response.json(), outfile, ensure_ascii=False)
         # print(response.json())
-
-        now = datetime.datetime.now()
+        
+        now= datetime.datetime.now()
+        now=now.replace(hour=int(current_time[:2]), minute=int(current_time[3:5]), second=int(current_time[6:8]))
+        print(now)
+       
         index2=index
         returns={}
         for waypoint in response['routes'][0]['legs']: #paragens na linha, +1 porque range exclyui o ultimo valor

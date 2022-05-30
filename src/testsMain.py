@@ -19,7 +19,7 @@ from dateutil import tz
 import socket
 import signal
 import sys
-
+currenttimestamp=""
 bus_list = {}
 
 ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
@@ -258,7 +258,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
     #check if id in dictionary
     for time in bus[bus_id]['data']:
-
+        currenttimestamp=time
         if(len(bus_list[bus_id])==0):
             bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
         if(len(bus_list[bus_id])==1):
@@ -321,8 +321,8 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     
     
     direction = checkDirection(attribuited_line,stops_array)
-
-    prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction))
+    print(currenttimestamp)
+    prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction), currenttimestamp)
   
     print("-----------------------------------------------------------------------------")
     print("bus_list:",bus_list)
@@ -385,7 +385,7 @@ def Line_detection(buses={}):
     | Main function of the program. It receives the data from the OBU history and filters it through the filterData function.
 
     """
-    #buses=realbusdata #! TESTES SEM SERVER
+    buses=realbusdata #! TESTES SEM SERVER
     print("---------------------")
     print(buses)
     print("----------yes-----------")
@@ -395,7 +395,7 @@ def Line_detection(buses={}):
        
         Find_line_of_bus(bus_filter,bus) # descobrir se possível a linha do autocarro e avisar a aplicação mobile
         
-#Line_detection(None) #!ISTO E PARA TESTES SEM SERVER
+Line_detection(None) #!ISTO E PARA TESTES SEM SERVER
 
 
 #----------------------------------------------------------------------------------------------------------
@@ -404,273 +404,273 @@ def Line_detection(buses={}):
 
 
 
-#! ------------------------- ORION HISTORY -------------------------
+# #! ------------------------- ORION HISTORY -------------------------
 
-# * credentials for the API
-user_and_password = '{"username": "peci_2122_atcll","password": "pecII_2122_atcll+"}'
-headers = {"Content-type": "application/json", "Accept-Charset": "UTF-8"}
+# # * credentials for the API
+# user_and_password = '{"username": "peci_2122_atcll","password": "pecII_2122_atcll+"}'
+# headers = {"Content-type": "application/json", "Accept-Charset": "UTF-8"}
 
-# * array to select the services and types
-services = ["aveiro_cam", "aveiro_radar", "transdev"]
-types = ["Traffic", "Count", "Values"]
+# # * array to select the services and types
+# services = ["aveiro_cam", "aveiro_radar", "transdev"]
+# types = ["Traffic", "Count", "Values"]
 
-# * Create ORION Auth Token
-def get_api_authtoken():
-    res = requests.post(
-        "https://api.atcll-data.nap.av.it.pt/auth",
-        data=user_and_password,
-        headers=headers,
-    )
-    if res.status_code == 200:
-        return res.headers.get("authorization")
+# # * Create ORION Auth Token
+# def get_api_authtoken():
+#     res = requests.post(
+#         "https://api.atcll-data.nap.av.it.pt/auth",
+#         data=user_and_password,
+#         headers=headers,
+#     )
+#     if res.status_code == 200:
+#         return res.headers.get("authorization")
 
-    print("Token is missing!!")
-    print(res.text)
-
-
-# * Makes the URL to get the historical data from the API
-# * Receives the start and end time in milliseconds
-def make_history_url(start_time, end_time):
-    return (
-        "https://api.atcll-data.nap.av.it.pt/history?type=obugps&start="
-        + str(start_time)
-        + "&end="
-        + str(end_time)
-        + "&attribute=location"
-    )
+#     print("Token is missing!!")
+#     print(res.text)
 
 
-# * Makes the historical request to the API
-# * Receives the token and the url and the service to subscribe
-def get_history_request(token, url, service):
-    r = requests.get(url, headers={"FIWARE-Service": service, "authorization": token})
-
-    try:
-        if r.json():
-            print("REQUEST SUCESSEFULL")
-            return r.json()
-        else:
-            print("NO DATA")
-            return {}
-
-    except:
-        print(r.text)
-        return {}
+# # * Makes the URL to get the historical data from the API
+# # * Receives the start and end time in milliseconds
+# def make_history_url(start_time, end_time):
+#     return (
+#         "https://api.atcll-data.nap.av.it.pt/history?type=obugps&start="
+#         + str(start_time)
+#         + "&end="
+#         + str(end_time)
+#         + "&attribute=location"
+#     )
 
 
-# * Converts a datetime date to milliseconds
-def date_to_millisecconds(date):
-    return int(time.mktime(date.timetuple()) * 1000)
+# # * Makes the historical request to the API
+# # * Receives the token and the url and the service to subscribe
+# def get_history_request(token, url, service):
+#     r = requests.get(url, headers={"FIWARE-Service": service, "authorization": token})
+
+#     try:
+#         if r.json():
+#             print("REQUEST SUCESSEFULL")
+#             return r.json()
+#         else:
+#             print("NO DATA")
+#             return {}
+
+#     except:
+#         print(r.text)
+#         return {}
 
 
-# * Get all the keys of the dictionary
-# * retuns the list of keys sorted
-def get_key_Values(dictionary):
-    keylist = list(dictionary.keys())
-    keylist.sort()
-    return keylist
+# # * Converts a datetime date to milliseconds
+# def date_to_millisecconds(date):
+#     return int(time.mktime(date.timetuple()) * 1000)
 
 
-# * Fix the time in the json from GMT to local time
-def json_fix_time(json):
-    from_zone = tz.gettz("GMT")
-    to_zone = tz.gettz("Europe/London")
-    # *gets all buses in the json
-    # * bus=  urn:ngsi-ld:obuGPS:transdev:50 where 50 is the bus number
-    for bus in get_key_Values(json):
-        i = 0
-        for GMTtime in json[bus]["time_index"]:
-            # * GMTtime = 2022-03-30T08:25:51
-            tmp = GMTtime.split("T")
-
-            tmpDate = tmp[0]
-            tmpTime = tmp[1]
-
-            splitDate = tmpDate.split("-")
-            splitTime = tmpTime.split(":")
-
-            # * puts the time_index date to datetime format
-            datetimeGMT = datetime.datetime(
-                int(splitDate[0]),
-                int(splitDate[1]),
-                int(splitDate[2]),
-                int(splitTime[0]),
-                int(splitTime[1]),
-                int(splitTime[2]),
-                0,
-            )
-
-            # * change the timezone
-            datetimeGMT = datetimeGMT.replace(tzinfo=from_zone)
-            datetimeLocal = datetimeGMT.astimezone(to_zone)
-
-            # * puts the new time in the correct format
-            newTime = (
-                str(datetimeLocal.year)
-                + "-"
-                + "{:02d}".format(datetimeLocal.month)
-                + "-"
-                + "{:02d}".format(datetimeLocal.day)
-                + "T"
-                + "{:02d}".format(datetimeLocal.hour)
-                + ":"
-                + "{:02d}".format(datetimeLocal.minute)
-                + ":"
-                + "{:02d}".format(datetimeLocal.second)
-            )
-
-            # * replaces the old time with the new one
-            json[bus]["time_index"][i] = newTime
-            i += 1
+# # * Get all the keys of the dictionary
+# # * retuns the list of keys sorted
+# def get_key_Values(dictionary):
+#     keylist = list(dictionary.keys())
+#     keylist.sort()
+#     return keylist
 
 
-# * function to handle the AI request
-def make_IA_request(stationID):
-    # * get the token
-    token = get_api_authtoken()
+# # * Fix the time in the json from GMT to local time
+# def json_fix_time(json):
+#     from_zone = tz.gettz("GMT")
+#     to_zone = tz.gettz("Europe/London")
+#     # *gets all buses in the json
+#     # * bus=  urn:ngsi-ld:obuGPS:transdev:50 where 50 is the bus number
+#     for bus in get_key_Values(json):
+#         i = 0
+#         for GMTtime in json[bus]["time_index"]:
+#             # * GMTtime = 2022-03-30T08:25:51
+#             tmp = GMTtime.split("T")
 
-    # * get the start and end time
-    # * when this function is called, the end time is the current time
-    #dStart = datetime.datetime(2022, 5, 9, 18, 0)
-    #dEnd = datetime.datetime(2022, 5, 9, 19, 0)
+#             tmpDate = tmp[0]
+#             tmpTime = tmp[1]
+
+#             splitDate = tmpDate.split("-")
+#             splitTime = tmpTime.split(":")
+
+#             # * puts the time_index date to datetime format
+#             datetimeGMT = datetime.datetime(
+#                 int(splitDate[0]),
+#                 int(splitDate[1]),
+#                 int(splitDate[2]),
+#                 int(splitTime[0]),
+#                 int(splitTime[1]),
+#                 int(splitTime[2]),
+#                 0,
+#             )
+
+#             # * change the timezone
+#             datetimeGMT = datetimeGMT.replace(tzinfo=from_zone)
+#             datetimeLocal = datetimeGMT.astimezone(to_zone)
+
+#             # * puts the new time in the correct format
+#             newTime = (
+#                 str(datetimeLocal.year)
+#                 + "-"
+#                 + "{:02d}".format(datetimeLocal.month)
+#                 + "-"
+#                 + "{:02d}".format(datetimeLocal.day)
+#                 + "T"
+#                 + "{:02d}".format(datetimeLocal.hour)
+#                 + ":"
+#                 + "{:02d}".format(datetimeLocal.minute)
+#                 + ":"
+#                 + "{:02d}".format(datetimeLocal.second)
+#             )
+
+#             # * replaces the old time with the new one
+#             json[bus]["time_index"][i] = newTime
+#             i += 1
+
+
+# # * function to handle the AI request
+# def make_IA_request(stationID):
+#     # * get the token
+#     token = get_api_authtoken()
+
+#     # * get the start and end time
+#     # * when this function is called, the end time is the current time
+#     #dStart = datetime.datetime(2022, 5, 9, 18, 0)
+#     #dEnd = datetime.datetime(2022, 5, 9, 19, 0)
     
-    dEnd = datetime.datetime.now() 
-    dStart = dEnd - datetime.timedelta(minutes=60)
+#     dEnd = datetime.datetime.now() 
+#     dStart = dEnd - datetime.timedelta(minutes=60)
 
-    # * convert the start and end time to milliseconds
-    start_time = date_to_millisecconds(dStart)
-    end_time = date_to_millisecconds(dEnd)
+#     # * convert the start and end time to milliseconds
+#     start_time = date_to_millisecconds(dStart)
+#     end_time = date_to_millisecconds(dEnd)
 
-    # * make the url to get the data from the API
-    url = make_history_url(start_time, end_time)
+#     # * make the url to get the data from the API
+#     url = make_history_url(start_time, end_time)
 
-    # * make the request to the API
-    requestJSON = get_history_request(token, url, services[2])
+#     # * make the request to the API
+#     requestJSON = get_history_request(token, url, services[2])
 
     
-    # * if the json is empty that means no data was found for the time period
-    # * puts in mqtt an empty array
-    if requestJSON == {}:
-        return {}
-    # * if the json is not empty, fix the time and put the json in mqtt
-    else:
-        json_fix_time(requestJSON)
-        cleanJSON = format_json(requestJSON,stationID)
-        return cleanJSON
+#     # * if the json is empty that means no data was found for the time period
+#     # * puts in mqtt an empty array
+#     if requestJSON == {}:
+#         return {}
+#     # * if the json is not empty, fix the time and put the json in mqtt
+#     else:
+#         json_fix_time(requestJSON)
+#         cleanJSON = format_json(requestJSON,stationID)
+#         return cleanJSON
 
 
-# * Function to format the json for the AI request
-def format_json(jsonn,stationID):
-    formatedJSON = {}
-    # * gets all buses in the json
-    for fullBusID in get_key_Values(jsonn):
-        # * fullBusID = urn:ngsi-ld:obuGPS:transdev:50 where 50 is the bus number
-        splitBusID = fullBusID.split(":")
-        busID = int(splitBusID[4])
-        formatedJSON[str(busID)] = {}
-        formatedJSON[str(busID)]["data"] = {}
+# # * Function to format the json for the AI request
+# def format_json(jsonn,stationID):
+#     formatedJSON = {}
+#     # * gets all buses in the json
+#     for fullBusID in get_key_Values(jsonn):
+#         # * fullBusID = urn:ngsi-ld:obuGPS:transdev:50 where 50 is the bus number
+#         splitBusID = fullBusID.split(":")
+#         busID = int(splitBusID[4])
+#         formatedJSON[str(busID)] = {}
+#         formatedJSON[str(busID)]["data"] = {}
 
-        # * puts in the formatedJSON the data for the bus by its time index
-        for value in range(len((jsonn[fullBusID]["time_index"]))):
-            if(int(jsonn[fullBusID]["time_index"][value].split("T")[1].split(":")[2]) % 10==0):
-                formatedJSON[str(busID)]["data"][
-                    jsonn[fullBusID]["time_index"][value].split("T")[1]
-                ] = {
-                    "coords": {
-                        "lat": jsonn[fullBusID]["lat"][value],
-                        "long": jsonn[fullBusID]["long"][value],
-                    }
-                }
-    return formatedJSON
+#         # * puts in the formatedJSON the data for the bus by its time index
+#         for value in range(len((jsonn[fullBusID]["time_index"]))):
+#             if(int(jsonn[fullBusID]["time_index"][value].split("T")[1].split(":")[2]) % 10==0):
+#                 formatedJSON[str(busID)]["data"][
+#                     jsonn[fullBusID]["time_index"][value].split("T")[1]
+#                 ] = {
+#                     "coords": {
+#                         "lat": jsonn[fullBusID]["lat"][value],
+#                         "long": jsonn[fullBusID]["long"][value],
+#                     }
+#                 }
+#     return formatedJSON
 
-#! ------------------------- REAL TIME -------------------------
+# #! ------------------------- REAL TIME -------------------------
 
-MQTT_TOPIC = [("+/apu/cam",0)]
+# MQTT_TOPIC = [("+/apu/cam",0)]
 
-global y
-y={}
+# global y
+# y={}
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
-    client.subscribe(MQTT_TOPIC)
+# def on_connect(client, userdata, flags, rc):
+#     print("Connected with result code "+str(rc))
+#     client.subscribe(MQTT_TOPIC)
     
 
 
-# The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
-    j_son = json.loads(msg.payload)
-    if j_son["stationType"]==6: # Station Type (6) significa que é um autocarro
-        if j_son["stationID"] in y.keys(): #se o autocarro está no dicionário significa que já passou por um poste
-            if j_son["receiverID"] in y[j_son["stationID"]].keys(): # se o autocarro já passou neste poste
-            # comparar o timestamp do ultimo poste e o timestamp do poste atual
-                if j_son["timestamp"] > y[j_son["stationID"]][j_son["receiverID"]]: # se o timestamp do poste atual é maior que o timestamp do ultimo poste sigifica que o autocarro ainda está a passar no poste
-                    y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"] # atualizar o timestamp do ultimo poste
+# # The callback for when a PUBLISH message is received from the server.
+# def on_message(client, userdata, msg):
+#     j_son = json.loads(msg.payload)
+#     if j_son["stationType"]==6: # Station Type (6) significa que é um autocarro
+#         if j_son["stationID"] in y.keys(): #se o autocarro está no dicionário significa que já passou por um poste
+#             if j_son["receiverID"] in y[j_son["stationID"]].keys(): # se o autocarro já passou neste poste
+#             # comparar o timestamp do ultimo poste e o timestamp do poste atual
+#                 if j_son["timestamp"] > y[j_son["stationID"]][j_son["receiverID"]]: # se o timestamp do poste atual é maior que o timestamp do ultimo poste sigifica que o autocarro ainda está a passar no poste
+#                     y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"] # atualizar o timestamp do ultimo poste
                 
-            else: # é a primeira vez que o autocarro passa no poste
-                IAjson=make_IA_request(int(j_son["stationID"]))
-                print("IAjson: ",IAjson)
-                if IAjson != {}:
-                  Line_detection(IAjson)
-                  y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
-        else: # é a primeira vez que o autocarro entra
-            IAjson=make_IA_request(int(j_son["stationID"]))
-            if IAjson != {}:
-                Line_detection(IAjson)
-                y[j_son["stationID"]] = {}
-                y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
-                print(y)
+#             else: # é a primeira vez que o autocarro passa no poste
+#                 IAjson=make_IA_request(int(j_son["stationID"]))
+#                 print("IAjson: ",IAjson)
+#                 if IAjson != {}:
+#                   Line_detection(IAjson)
+#                   y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
+#         else: # é a primeira vez que o autocarro entra
+#             IAjson=make_IA_request(int(j_son["stationID"]))
+#             if IAjson != {}:
+#                 Line_detection(IAjson)
+#                 y[j_son["stationID"]] = {}
+#                 y[j_son["stationID"]][j_son["receiverID"]] = j_son["timestamp"]
+#                 print(y)
     
-    y_copy = {**y}
-    stationList = list(y.keys())
-    for station in stationList:
-        l = list(y_copy[station].keys())
-        for receiverIDkey in l:
-            if (datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(y[station][receiverIDkey])).total_seconds()> 60:
-                del y[station][receiverIDkey]
+#     y_copy = {**y}
+#     stationList = list(y.keys())
+#     for station in stationList:
+#         l = list(y_copy[station].keys())
+#         for receiverIDkey in l:
+#             if (datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(y[station][receiverIDkey])).total_seconds()> 60:
+#                 del y[station][receiverIDkey]
     
 
-def connect_mqtt():
-    # criar variavel para receber os dados
-    receiver = mqtt.Client()
-    receiver.on_connect = on_connect
-    receiver.on_message = on_message
-    receiver.connect_async("atcll-data.nap.av.it.pt", 1884, 60)
+# def connect_mqtt():
+#     # criar variavel para receber os dados
+#     receiver = mqtt.Client()
+#     receiver.on_connect = on_connect
+#     receiver.on_message = on_message
+#     receiver.connect_async("atcll-data.nap.av.it.pt", 1884, 60)
     
-    return receiver
+#     return receiver
 
 
-#! ------------------------- ORION POST -------------------------
+# #! ------------------------- ORION POST -------------------------
 
-#* Posts the Line Detection json to the API 
-#* Receives the json to post
-def post_json_to_orion(LDjson):
+# #* Posts the Line Detection json to the API 
+# #* Receives the json to post
+# def post_json_to_orion(LDjson):
     
-    payload = json.dumps(LDjson)
+#     payload = json.dumps(LDjson)
     
-    headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2aWNlIjoicGVjaV9idXMiLCJpYXQiOjE2NDk3MTIyMjJ9.MnKA5nJ8XOEtSWbW9lcWLnhdejcWGQMz07WxTsH0Pk4',
-    'Fiware-service': 'peci_bus'
-    }
+#     headers = {
+#     'Content-Type': 'application/json',
+#     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXJ2aWNlIjoicGVjaV9idXMiLCJpYXQiOjE2NDk3MTIyMjJ9.MnKA5nJ8XOEtSWbW9lcWLnhdejcWGQMz07WxTsH0Pk4',
+#     'Fiware-service': 'peci_bus'
+#     }
 
-    r = requests.post('https://orion.atcll-data.nap.av.it.pt/v2/entities?options=upsert' ,data=payload, headers=headers)
+#     r = requests.post('https://orion.atcll-data.nap.av.it.pt/v2/entities?options=upsert' ,data=payload, headers=headers)
     
-    if(r.status_code==204):
-        print("Post successful")
+#     if(r.status_code==204):
+#         print("Post successful")
 
 
 
-#! ------------------------- MAIN -------------------------
+# #! ------------------------- MAIN -------------------------
 
 
-if __name__ == "__main__":
-    try:
-        receiver = connect_mqtt()
-        receiver.loop_forever()
+# if __name__ == "__main__":
+#     try:
+#         receiver = connect_mqtt()
+#         receiver.loop_forever()
             
-    except KeyboardInterrupt:
-        print("\r  ")
-        print("Exiting Program...")
+#     except KeyboardInterrupt:
+#         print("\r  ")
+#         print("Exiting Program...")
 
 
 
