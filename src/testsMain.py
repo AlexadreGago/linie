@@ -19,7 +19,7 @@ from dateutil import tz
 import socket
 import signal
 import sys
-
+currenttimestamp=""
 bus_list = {}
 
 ends_turns= {1: (4873436913, 1364747314, 4873436913), #1
@@ -258,7 +258,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
         bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
     #check if id in dictionary
     for time in bus[bus_id]['data']:
-
+        currenttimestamp=time
         if(len(bus_list[bus_id])==0):
             bus_list[bus_id] = [1,2,3,4,5,6,8,10,11,12,13]
         if(len(bus_list[bus_id])==1):
@@ -321,8 +321,8 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     
     
     direction = checkDirection(attribuited_line,stops_array)
-
-    prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction))
+    print(currenttimestamp)
+    prediction = ETAmapbox.gps(str(attribuited_line), int(last_stop), int(direction), currenttimestamp)
   
     print("-----------------------------------------------------------------------------")
     print("bus_list:",bus_list)
