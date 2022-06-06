@@ -7,6 +7,9 @@ from datetime import datetime
 
 import json
 import requests
+
+myclient = pymongo.MongoClient("mongodb://mongo:27017") # connect to mongo db
+
 # def SendLineData(line,timestamp,day,stops_ids,rua):
 
 #     dic={}
@@ -55,8 +58,7 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     dic["prediction"] = {}
     dic["prediction"] = prediction
     
-    print(dic)
-    print("work")
+    
     payload = json.dumps({
     "id": "urn:ngsi-ld:Bus:peci_bus:"+bus_id,
     "type": "Bus",
@@ -79,9 +81,7 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     r = requests.post('https://orion.atcll-data.nap.av.it.pt/v2/entities?options=upsert' ,data=payload, headers=headers)
 
     print(r.status_code==204)
-    print("worked")
 
-    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
@@ -107,7 +107,6 @@ def getBusData(bus_id):
     :rtype: dict
         
     """
-    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["Bus_lines"] # acess the database
 
@@ -193,7 +192,6 @@ def MapBoxTimeStampsPrediction(line,bus_id,stop,timeStamp) :
     dic["timeStamps"] = timeStamp
     
 
-    myclient = pymongo.MongoClient("mongo") # connect to mongo db
 
     db = myclient["MapBoxTimeStampsPrediction"] # acess the database
 
@@ -224,7 +222,7 @@ def dropDatabases(bus_lines,mapBoxTimeStampsPrediction): # delete databases fucn
         
     """
     print(type(bus_lines))
-    myclient = pymongo.MongoClient("mongo") # connect to mongo db
+    
     if bus_lines:
         myclient.drop_database("Bus_lines")
     if mapBoxTimeStampsPrediction:

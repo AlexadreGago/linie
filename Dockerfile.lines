@@ -1,12 +1,12 @@
 FROM python:3.8-alpine
 
-COPY ./src /src
-COPY ./json /json
 COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
+COPY ./src /src
+COPY ./json /json
 
 WORKDIR /src
 
-CMD [ "python3", "testsMain.py" ]
+CMD [ "python3", "-u", "testsMain.py" ]
