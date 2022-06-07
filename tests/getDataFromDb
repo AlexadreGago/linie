@@ -1,0 +1,21 @@
+import pymongo_functions
+
+from datetime import date
+import random
+import time
+from datetime import datetime
+
+import json
+import requests
+
+getLine = (pymongo_functions.getLinesData(1))
+print("Line:" ,1)
+for temp in getLine:
+  print(temp)
+  
+print()
+
+getBus = (pymongo_functions.getBusData(1))
+
+for temp in getBus:
+    print(temp)
