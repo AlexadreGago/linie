@@ -339,6 +339,7 @@ def Find_line_of_bus(bus, bus_id): #*TODO Find line(s) of bus by ID
     print()
     pymongo_functions.SendBusData(bus_id,list(bus[bus_id]['data'].keys())[-1],date.today().strftime("%d/%m/%Y"),attribuited_line,last_stop,prediction)
     pymongo_functions.MapBoxTimeStampsPrediction(attribuited_line,bus_id,last_stop,prediction)
+    pymongo_functions.LinesData( attribuited_line,bus_id,last_stop)
     print("passou")
     
     

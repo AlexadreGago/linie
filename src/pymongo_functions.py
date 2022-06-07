@@ -9,23 +9,6 @@ import json
 import requests
 
 myclient = pymongo.MongoClient("mongodb://mongo:27017") # connect to mongo db
-
-# def SendLineData(line,timestamp,day,stops_ids,rua):
-
-#     dic={}
-
-#     dic["day"] = day
-#     dic["time"] = timestamp
-#     dic["stop_id"]= stops_ids
-#     dic["rua"] = rua
-
-#     myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017") # connect to mongo db
-
-#     db = myclient["Database_lines"] # acess the database
-
-#     line_col = db["Linha: "+str(line)]# get/create the collection
-
-#     x = line_col.insert_one(dic) # insert data
     
 
 def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
@@ -86,7 +69,7 @@ def SendBusData(bus_id,timestamp,day,possible_lines,paragem,prediction):
     db = myclient["Bus_lines"] # acess the database
 
     bus_col = db["Bus_Data: "+str(bus_id)]# get/create the collection
-    bus_col.drop()
+    #bus_col.drop()
     bus_col.insert_one(dic) # insert data
 
    
@@ -208,6 +191,22 @@ def MapBoxTimeStampsPrediction(line,bus_id,stop,timeStamp) :
 # MapBoxTimeStampsPrediction(7,50,prediçao2)
 
 #drop pymongo
+
+def LinesData(line,bus_id,stop) :
+    
+    dic={}
+    dic['date']= str(datetime.now().strftime("%d/%m/%Y"))
+    dic['time'] = datetime.now().strftime("%H:%M:%S")
+    dic['bus_id']= bus_id
+    dic['stop']= stop
+    
+    db = myclient["LinesData"] # acess the database
+    
+    bus_col=db[str(line)]
+    
+    bus_col.insert_one(dic)
+
+
 def dropDatabases(bus_lines,mapBoxTimeStampsPrediction): # delete databases fucntions lines,bus_lines,mapBoxTimeStampsPrediction
     """
     
